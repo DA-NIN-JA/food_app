@@ -7,6 +7,7 @@ import 'package:food_app/providers/provider.dart';
 import 'package:food_app/screens/AuthPage.dart';
 import 'package:food_app/screens/NGO_list_page.dart';
 import 'package:food_app/screens/NGO_page.dart';
+import 'package:food_app/screens/edit_profile_screen.dart';
 import 'package:food_app/screens/home_screen.dart';
 import 'package:food_app/screens/user_profile.dart';
 import 'package:provider/provider.dart';
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Scaffold(
                 body: Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(color: kblack),
                 ),
               );
             } else if (snapshot.hasError) {
@@ -66,6 +67,7 @@ class MyApp extends StatelessWidget {
           NGOPage.routeName: (context) => NGOPage(),
           UserProfile.routeName: (context) => UserProfile(),
           NGOsList.routeName: (context) => NGOsList(),
+          EditProfileScreen.routeName: (context) => EditProfileScreen(),
         },
       ),
     );

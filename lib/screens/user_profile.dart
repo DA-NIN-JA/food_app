@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:food_app/constants.dart';
 import 'package:food_app/providers/provider.dart';
 import 'package:food_app/screens/AuthPage.dart';
+import 'package:food_app/screens/edit_profile_screen.dart';
 import 'package:provider/provider.dart';
 import '../providers/provider.dart' as up;
 import '../reusableWidgets/back_button.dart';
@@ -23,11 +24,11 @@ class UserProfile extends StatelessWidget {
     //     .then((value) => currentUser = value)
     //     .then((value) => print(currentUser!.name));
     return FutureBuilder(
-      future: Provider.of<UserProvider>(context, listen: false)
-        .getUserInfo(),
+      future: Provider.of<UserProvider>(context, listen: false).getUserInfo(),
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          final userInfo = snapshot.data!;
+        if (snapshot.hasData ||
+            snapshot.connectionState == ConnectionState.waiting) {
+          final userInfo = snapshot.data;
           return Scaffold(
             // appBar: AppBar(backgroundColor: kwhite,elevation: 0,),
             backgroundColor: kwhite,
@@ -41,67 +42,75 @@ class UserProfile extends StatelessWidget {
                             center: Alignment.center,
                             radius: 0.9999)),
                     height: double.infinity,
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
-                        child: Column(
-                          children: [
-                            Center(
-                              child: CircleAvatar(
-                                foregroundImage:
-                                    NetworkImage("https://picsum.photos/200"),
-                                radius: 60,
+                    width: double.infinity,   //Works without this
+                    child: snapshot.connectionState == ConnectionState.waiting
+                        ? Center(
+                            child: CircularProgressIndicator(color: kblack),
+                          )
+                        : SingleChildScrollView(
+                            child: Padding(
+                              padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
+                              child: Column(
+                                children: [
+                                  Center(
+                                    child: CircleAvatar(
+                                      foregroundImage: NetworkImage(
+                                          "https://picsum.photos/200"),
+                                      radius: 60,
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(top: 8),
+                                    child: Text(
+                                      userInfo!.name,
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(top: 8),
+                                    child: Text(
+                                      userInfo.email,
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: kgrey,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  ListItem(
+                                      icon: Icons.person,
+                                      title: "Edit Profile",
+                                      onPress: () => Navigator.of(context)
+                                          .pushNamed(
+                                              EditProfileScreen.routeName)),
+                                  ListItem(
+                                      icon: Icons.help_outline_rounded,
+                                      title: "Help and Support",
+                                      onPress: () {}),
+                                  ListItem(
+                                      icon: Icons.settings,
+                                      title: "Settings",
+                                      onPress: () {}),
+                                  ListItem(
+                                      icon: Icons.person_add_alt_1,
+                                      title: "Invite a Friend",
+                                      onPress: () {}),
+                                  ListItem(
+                                      icon: Icons.logout_rounded,
+                                      title: "Logout",
+                                      trailings: false,
+                                      onPress: () => logout(context)),
+                                  SizedBox(
+                                    height: 300,
+                                  )
+                                ],
                               ),
                             ),
-                            Container(
-                              padding: EdgeInsets.only(top: 8),
-                              child: Text(
-                                userInfo.name,
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(top: 8),
-                              child: Text(
-                                userInfo.email,
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: kgrey,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            ListItem(
-                                icon: Icons.person,
-                                title: "Edit Profile",
-                                onPress: () {}),
-                            ListItem(
-                                icon: Icons.help_outline_rounded,
-                                title: "Help and Support",
-                                onPress: () {}),
-                            ListItem(
-                                icon: Icons.settings,
-                                title: "Settings",
-                                onPress: () {}),
-                            ListItem(
-                                icon: Icons.person_add_alt_1,
-                                title: "Invite a Friend",
-                                onPress: () {}),
-                            ListItem(
-                                icon: Icons.logout_rounded,
-                                title: "Logout",
-                                trailings: false,
-                                onPress: () => logout(context)),
-                            SizedBox(
-                              height: 300,
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
+                          ),
                   ),
                   Positioned(
                       child: IconButton(
@@ -114,11 +123,14 @@ class UserProfile extends StatelessWidget {
               ),
             ),
           );
-        }else if(snapshot.hasError){
+        } else if (snapshot.hasError) {
           print(snapshot.error);
-          return Scaffold(body: Center(child: Text(snapshot.error as String),),);
-        } 
-        else {
+          return Scaffold(
+            body: Center(
+              child: Text(snapshot.error as String),
+            ),
+          );
+        } else {
           return AuthPage();
         }
       },

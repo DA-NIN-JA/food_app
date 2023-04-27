@@ -4,6 +4,7 @@ import 'package:food_app/providers/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import '../constants.dart';
 import '../providers/provider.dart' as UserProviders;
+import '../reusableWidgets/dialog_box.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
@@ -181,9 +182,9 @@ class _AuthWidgetState extends State<AuthWidget> {
               label: Text("Email"),
             ),
             // onTapOutside: (event) => Focus.of(context).unfocus(),
-            validator: (value) {
-              return value.toString().isEmpty ? "Required Field" : null;
-            },
+            // validator: (value) {
+            //   return value.toString().isEmpty ? "Required Field" : null;
+            // },
             onFieldSubmitted: (value) => _passwordController.text.trim().isEmpty
                 ? FocusScope.of(context).requestFocus(_passFocus)
                 : null,
@@ -461,34 +462,5 @@ class _AuthWidgetState extends State<AuthWidget> {
       });
       ErrorDialog(context, _errorMessage);
     }
-  }
-
-  void ErrorDialog(BuildContext context, String errorMessage) {
-    Alert(
-      context: context,
-      type: AlertType.error,
-      title: "Error",
-      style: AlertStyle(
-        titleStyle: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      closeIcon: SizedBox(),
-      buttons: [
-        DialogButton(
-          child: Text(
-            "OK",
-            style: TextStyle(color: kwhite),
-          ),
-          onPressed: () => Navigator.of(context).pop(),
-          color: kblack,
-        ),
-      ],
-      content: Text(
-        errorMessage,
-        style: TextStyle(fontSize: 14),
-      ),
-    ).show();
   }
 }
