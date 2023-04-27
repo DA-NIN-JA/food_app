@@ -24,11 +24,38 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final _emailFocus = FocusNode();
   final _phoneFocus = FocusNode();
   final _addressFocus = FocusNode();
+  late bool _isInit;
+
+  @override
+  void dispose() {
+    _nameController;
+    _emailController;
+    _phoneController;
+    _addressController;
+    _nameFocus;
+    _emailFocus;
+    _phoneFocus;
+    _addressFocus;
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    _isInit = true;
+  }
 
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).currentUser;
-    print(user.name);
+    if (_isInit) {
+      _nameController.text = user.name;
+      _emailController.text = user.email;
+      _phoneController.text = user.phone;
+      _addressController.text = user.address;
+      setState(() {
+        _isInit=false;
+      });
+    }
     return Scaffold(
       // appBar: AppBar(backgroundColor: kwhite,elevation: 0,),
       backgroundColor: kwhite,
@@ -61,6 +88,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           ),
                           label: Text("Name"),
                         ),
+                        // style: TextStyle(
+                        //     color: _nameFocus.hasFocus ? kblack : kgrey),
                         onFieldSubmitted: (value) => _phoneController.text
                                 .trim()
                                 .isEmpty
@@ -85,6 +114,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             ),
                             label: Text("Email"),
                           ),
+                          style: TextStyle(color: kgrey),
                           onTap: () {
                             FocusScope.of(context).requestFocus(FocusNode());
                           },
@@ -120,6 +150,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             ? FocusScope.of(context).requestFocus(_addressFocus)
                             : null,
                         keyboardType: TextInputType.number,
+                        // style: TextStyle(
+                        //     color: _nameFocus.hasFocus ? kblack : kgrey),
                       ),
                       TextFormField(
                         focusNode: _addressFocus,
@@ -141,6 +173,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         keyboardType: TextInputType.multiline,
                         maxLength: 100,
                         maxLines: 1,
+                        // style: TextStyle(
+                        //     color: _nameFocus.hasFocus ? kblack : kgrey),
                       ),
                     ],
                   ),
