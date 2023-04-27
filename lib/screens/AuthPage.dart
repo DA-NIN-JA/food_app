@@ -429,7 +429,7 @@ class _AuthWidgetState extends State<AuthWidget> {
         ErrorDialog(context, "Passwords do not match");
         FocusScope.of(context).requestFocus(_conFocus);
       } else {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        final authResult = await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
         );
@@ -438,7 +438,7 @@ class _AuthWidgetState extends State<AuthWidget> {
           UserProviders.User(
             name: _nameController.text.trim(),
             email: _emailController.text.trim(),
-          ),
+          ), authResult.user!.uid
         );
       }
     } on FirebaseAuthException catch (error) {

@@ -1,22 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:food_app/constants.dart';
+import 'package:food_app/providers/provider.dart';
 import 'package:food_app/screens/AuthPage.dart';
-
+import 'package:provider/provider.dart';
+import '../providers/provider.dart' as up;
 import '../reusableWidgets/back_button.dart';
 
 class UserProfile extends StatelessWidget {
   static const routeName = '/UserProfile';
 
-  void logout() {
+  void logout(BuildContext context) {
     FirebaseAuth.instance.signOut();
+    Navigator.of(context).pushReplacementNamed("/Home");
   }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
+    // up.User? currentUser;
+    // Provider.of<UserProvider>(context, listen: false)
+    //     .getUserInfo()
+    //     .then((value) => currentUser = value)
+    //     .then((value) => print(currentUser!.name));
+    return FutureBuilder(
+      future: Provider.of<UserProvider>(context, listen: false)
+        .getUserInfo(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+          final userInfo = snapshot.data!;
           return Scaffold(
             // appBar: AppBar(backgroundColor: kwhite,elevation: 0,),
             backgroundColor: kwhite,
@@ -45,7 +56,7 @@ class UserProfile extends StatelessWidget {
                             Container(
                               padding: EdgeInsets.only(top: 8),
                               child: Text(
-                                "Dhairya",
+                                userInfo.name,
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.bold),
                               ),
@@ -53,7 +64,7 @@ class UserProfile extends StatelessWidget {
                             Container(
                               padding: EdgeInsets.only(top: 8),
                               child: Text(
-                                "dhairya2arora@gmail.com",
+                                userInfo.email,
                                 style: TextStyle(
                                     fontSize: 12,
                                     color: kgrey,
@@ -66,24 +77,24 @@ class UserProfile extends StatelessWidget {
                             ListItem(
                                 icon: Icons.person,
                                 title: "Edit Profile",
-                                onPress: logout),
+                                onPress: () {}),
                             ListItem(
                                 icon: Icons.help_outline_rounded,
                                 title: "Help and Support",
-                                onPress: logout),
+                                onPress: () {}),
                             ListItem(
                                 icon: Icons.settings,
                                 title: "Settings",
-                                onPress: logout),
+                                onPress: () {}),
                             ListItem(
                                 icon: Icons.person_add_alt_1,
                                 title: "Invite a Friend",
-                                onPress: logout),
+                                onPress: () {}),
                             ListItem(
                                 icon: Icons.logout_rounded,
                                 title: "Logout",
                                 trailings: false,
-                                onPress: logout),
+                                onPress: () => logout(context)),
                             SizedBox(
                               height: 300,
                             )
@@ -103,12 +114,14 @@ class UserProfile extends StatelessWidget {
               ),
             ),
           );
-        }
-        else{
+        }else if(snapshot.hasError){
+          print(snapshot.error);
+          return Scaffold(body: Center(child: Text(snapshot.error as String),),);
+        } 
+        else {
           return AuthPage();
         }
       },
-      stream: FirebaseAuth.instance.authStateChanges(),
     );
   }
 }

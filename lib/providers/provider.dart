@@ -19,8 +19,8 @@ class User {
 }
 
 class UserProvider with ChangeNotifier {
-  void addUser(User user) {
-    FirebaseFirestore.instance.collection("users").add({
+  void addUser(User user,String userId) {
+    FirebaseFirestore.instance.collection("users").doc(userId).set({
       "name": user.name,
       "email": user.email,
       "phone": user.phone,
@@ -30,9 +30,9 @@ class UserProvider with ChangeNotifier {
   }
 
   Future<User> getUserInfo() async {
-    final userID = FirebaseAuth.instance.currentUser!.uid;
+    final userId = FirebaseAuth.instance.currentUser!.uid;
     final userData =
-        await FirebaseFirestore.instance.collection("users").doc(userID).get();
+        await FirebaseFirestore.instance.collection("users").doc(userId).get();
     User currentUser = User(
       name: userData["name"],
       email: userData["email"],
