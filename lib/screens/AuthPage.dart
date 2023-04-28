@@ -7,7 +7,7 @@ import '../providers/provider.dart' as UserProviders;
 import '../reusableWidgets/dialog_box.dart';
 
 class AuthPage extends StatelessWidget {
-  const AuthPage({super.key});
+  static const routeName = "/AuthPage";
 
   @override
   Widget build(BuildContext context) {

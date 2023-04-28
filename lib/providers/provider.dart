@@ -2,8 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
+import 'package:food_app/main.dart';
 import 'package:food_app/reusableWidgets/dialog_box.dart';
 import 'package:provider/provider.dart';
+import '../screens/AuthPage.dart';
 
 class User {
   final String name;
@@ -76,6 +78,11 @@ class UserProvider with ChangeNotifier {
       ErrorDialog(context, "An error has occured. Please try again later.");
       return _currentUser;
     }
+  }
+
+  void logout(BuildContext context) {
+    FirebaseAuth.instance.signOut();
+    Navigator.of(context).pop();
   }
 
   void updateUser(

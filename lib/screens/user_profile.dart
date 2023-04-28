@@ -10,11 +10,7 @@ import '../reusableWidgets/back_button.dart';
 
 class UserProfile extends StatelessWidget {
   static const routeName = '/UserProfile';
-
-  void logout(BuildContext context) {
-    FirebaseAuth.instance.signOut();
-    Navigator.of(context).pushReplacementNamed("/Home");
-  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +89,7 @@ class UserProfile extends StatelessWidget {
                             icon: Icons.logout_rounded,
                             title: "Logout",
                             trailings: false,
-                            onPress: () => logout(context)),
+                          onPress: () => Provider.of<UserProvider>(context,listen: false).logout(context)),
                         SizedBox(
                           height: 300,
                         )

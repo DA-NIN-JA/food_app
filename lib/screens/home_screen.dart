@@ -7,9 +7,9 @@ import 'package:food_app/reusableWidgets/tab_bar.dart';
 import 'package:food_app/screens/user_profile.dart';
 import 'package:provider/provider.dart';
 import '../reusableWidgets/user_profile_icon.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -176,7 +176,8 @@ class HomeScreen extends StatelessWidget {
         }
         ;
       },
-      future: Provider.of<UserProvider>(context,listen: false).getUserInfo(context),
+      future: Provider.of<UserProvider>(context, listen: false)
+          .getUserInfo(context),
     );
   }
 }

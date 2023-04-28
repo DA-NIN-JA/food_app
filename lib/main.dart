@@ -54,6 +54,7 @@ class MyApp extends StatelessWidget {
                 ),
               );
             } else if (snapshot.hasData) {
+              print("Hi");
               return HomeScreen();
             } else {
               return AuthPage();
@@ -68,6 +69,7 @@ class MyApp extends StatelessWidget {
           UserProfile.routeName: (context) => UserProfile(),
           NGOsList.routeName: (context) => NGOsList(),
           EditProfileScreen.routeName: (context) => EditProfileScreen(),
+          AuthPage.routeName: (context) => AuthPage(),
         },
       ),
     );
