@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../providers/provider.dart' as up;
 import '../reusableWidgets/dialog_box.dart';
 import 'package:provider/provider.dart';
@@ -308,7 +309,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       _phoneController.text = initPhone;
                       _addressController.text = initAddress;
                     },
-                    icon: EditIcon(),
+                    icon: EditIcon(_editable),
                     splashRadius: 28),
                 right: 10,
                 top: 8),
@@ -320,9 +321,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 }
 
 class EditIcon extends StatelessWidget {
-  const EditIcon({
-    super.key,
-  });
+  final editable;
+  EditIcon(this.editable);
 
   @override
   Widget build(BuildContext context) {
@@ -335,7 +335,7 @@ class EditIcon extends StatelessWidget {
         ],
       ),
       child: Center(
-        child: Icon(Icons.edit, color: kwhite, size: 32),
+        child: Icon( editable? FontAwesomeIcons.arrowRotateLeft: Icons.edit, color: kwhite, size:editable?28: 32),
       ),
     );
   }
