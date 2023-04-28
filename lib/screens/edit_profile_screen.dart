@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:food_app/providers/provider.dart';
-import 'package:food_app/reusableWidgets/dialog_box.dart';
+import '../providers/provider.dart' as up;
+import '../reusableWidgets/dialog_box.dart';
 import 'package:provider/provider.dart';
 import '../constants.dart';
 import '../reusableWidgets/back_button.dart';
@@ -24,7 +24,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final _emailFocus = FocusNode();
   final _phoneFocus = FocusNode();
   final _addressFocus = FocusNode();
-  late bool _isInit;
+  bool _isInit = true;
+  bool _editable = false;
+
+  void toggleEdit() {
+    setState(() {
+      _editable = !_editable;
+    });
+  }
 
   @override
   void dispose() {
@@ -40,20 +47,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   @override
-  void initState() {
-    _isInit = true;
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UserProvider>(context).currentUser;
+    final user = Provider.of<up.UserProvider>(context).currentUser;
     if (_isInit) {
       _nameController.text = user.name;
       _emailController.text = user.email;
       _phoneController.text = user.phone;
       _addressController.text = user.address;
       setState(() {
-        _isInit=false;
+        _isInit = false;
       });
     }
     return Scaffold(
@@ -72,30 +74,64 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               width: double.infinity,
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
+                  padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
                   child: Column(
                     children: [
-                      TextFormField(
-                        focusNode: _nameFocus,
-                        controller: _nameController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide(color: kgrey)),
-                          prefixIcon: Icon(
-                            Icons.person,
-                            color: kblack,
+                      Container(
+                        // margin: EdgeInsets.only(top: 5),
+                        child: Text(
+                          "My Profile",
+                          style: TextStyle(
+                            fontSize: 36,
+                            shadows: [
+                              Shadow(
+                                  blurRadius: 4,
+                                  offset: Offset(-1, 1.5),
+                                  color: Colors.black45),
+                            ],
                           ),
-                          label: Text("Name"),
                         ),
-                        // style: TextStyle(
-                        //     color: _nameFocus.hasFocus ? kblack : kgrey),
-                        onFieldSubmitted: (value) => _phoneController.text
-                                .trim()
-                                .isEmpty
-                            ? FocusScope.of(context).requestFocus(_phoneFocus)
-                            : null,
-                        keyboardType: TextInputType.name,
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      GestureDetector(
+                        behavior: _editable ? null : HitTestBehavior.opaque,
+                        onDoubleTap: _editable
+                            ? null
+                            : () => ErrorDialog(
+                                context, "Click on Edit to change details."),
+                        child: TextFormField(
+                          focusNode: _nameFocus,
+                          controller: _nameController,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(color: kgrey)),
+                            prefixIcon: Icon(
+                              Icons.person,
+                              color: kblack,
+                            ),
+                            label: Text("Name"),
+                          ),
+                          style: TextStyle(color: _editable ? kblack : kgrey),
+                          onFieldSubmitted: (value) => _phoneController.text
+                                  .trim()
+                                  .isEmpty
+                              ? FocusScope.of(context).requestFocus(_phoneFocus)
+                              : null,
+                          keyboardType: TextInputType.name,
+                          readOnly: _editable ? false : true,
+                          onTap: _editable
+                              ? null
+                              : () {
+                                  FocusScope.of(context)
+                                      .requestFocus(FocusNode());
+                                },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
                       ),
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
@@ -118,64 +154,131 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           onTap: () {
                             FocusScope.of(context).requestFocus(FocusNode());
                           },
-                          // onTapOutside: (event) => Focus.of(context).unfocus(),
-                          // validator: (value) {
-                          //   return value.toString().isEmpty ? "Required Field" : null;
-                          // },
-                          // onFieldSubmitted: (value) => _passwordController.text
-                          //         .trim()
-                          //         .isEmpty
-                          //     ? FocusScope.of(context).requestFocus(_passFocus)
-                          //     : null,
                           keyboardType: TextInputType.emailAddress,
                           readOnly: true,
                         ),
                       ),
-                      TextFormField(
-                        focusNode: _phoneFocus,
-                        controller: _phoneController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide(color: kgrey)),
-                          prefixIcon: Icon(
-                            Icons.phone,
-                            color: kblack,
-                          ),
-                          label: Text("Phone"),
-                        ),
-                        onFieldSubmitted: (value) => _addressController.text
-                                .trim()
-                                .isEmpty
-                            ? FocusScope.of(context).requestFocus(_addressFocus)
-                            : null,
-                        keyboardType: TextInputType.number,
-                        // style: TextStyle(
-                        //     color: _nameFocus.hasFocus ? kblack : kgrey),
+                      SizedBox(
+                        height: 20,
                       ),
-                      TextFormField(
-                        focusNode: _addressFocus,
-                        controller: _addressController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide(color: kgrey)),
-                          prefixIcon: Icon(
-                            Icons.home_rounded,
-                            color: kblack,
+                      GestureDetector(
+                        behavior: _editable ? null : HitTestBehavior.opaque,
+                        onDoubleTap: _editable
+                            ? null
+                            : () => ErrorDialog(
+                                context, "Click on Edit to change details."),
+                        child: TextFormField(
+                          focusNode: _phoneFocus,
+                          controller: _phoneController,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(color: kgrey)),
+                            prefixIcon: Icon(
+                              Icons.phone,
+                              color: kblack,
+                            ),
+                            label: Text("Phone"),
                           ),
-                          label: Text("Address"),
+                          onFieldSubmitted: (value) =>
+                              _addressController.text.trim().isEmpty
+                                  ? FocusScope.of(context)
+                                      .requestFocus(_addressFocus)
+                                  : null,
+                          keyboardType: TextInputType.number,
+                          style: TextStyle(color: _editable ? kblack : kgrey),
+                          readOnly: _editable ? false : true,
+                          onTap: _editable
+                              ? null
+                              : () {
+                                  FocusScope.of(context)
+                                      .requestFocus(FocusNode());
+                                },
                         ),
-                        onTapOutside: (event) =>
-                            FocusScope.of(context).unfocus(),
-                        onFieldSubmitted: (value) =>
-                            FocusScope.of(context).unfocus(),
-                        keyboardType: TextInputType.multiline,
-                        maxLength: 100,
-                        maxLines: 1,
-                        // style: TextStyle(
-                        //     color: _nameFocus.hasFocus ? kblack : kgrey),
                       ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      GestureDetector(
+                        behavior: _editable ? null : HitTestBehavior.opaque,
+                        onDoubleTap: _editable
+                            ? null
+                            : () => ErrorDialog(
+                                context, "Click on Edit to change details."),
+                        child: TextFormField(
+                          focusNode: _addressFocus,
+                          controller: _addressController,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(color: kgrey)),
+                            prefixIcon: Icon(
+                              Icons.home_rounded,
+                              color: kblack,
+                            ),
+                            label: Text("Address"),
+                          ),
+                          onTapOutside: (event) =>
+                              FocusScope.of(context).unfocus(),
+                          onFieldSubmitted: (value) =>
+                              FocusScope.of(context).unfocus(),
+                          keyboardType: TextInputType.streetAddress,
+                          maxLength: 100,
+                          maxLines: 1,
+                          style: TextStyle(color: _editable ? kblack : kgrey),
+                          readOnly: _editable ? false : true,
+                          onTap: _editable
+                              ? null
+                              : () {
+                                  FocusScope.of(context)
+                                      .requestFocus(FocusNode());
+                                },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      if (_editable)
+                        Row(
+                          // mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  toggleEdit();
+                                  Provider.of<up.UserProvider>(context,
+                                          listen: false)
+                                      .updateUser(
+                                    _nameController.text.trim(),
+                                    _phoneController.text.trim(),
+                                    _addressController.text.trim(),
+                                    context,
+                                  );
+                                },
+                                child: Text(
+                                  "Save",
+                                  style: TextStyle(fontSize: 36),
+                                  textAlign: TextAlign.center,
+                                ),
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStatePropertyAll(kblack),
+                                  elevation: MaterialStatePropertyAll(5),
+                                  fixedSize: MaterialStatePropertyAll(
+                                    Size(100, double.infinity),
+                                  ),
+                                  padding: MaterialStatePropertyAll(
+                                    EdgeInsets.symmetric(
+                                        vertical: 4, horizontal: 6),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            // SizedBox(
+                            //   width: 10,
+                            // ),
+                          ],
+                        )
                     ],
                   ),
                 ),
@@ -183,13 +286,46 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             ),
             Positioned(
                 child: IconButton(
+                    iconSize: 40,
                     onPressed: () => Navigator.of(context).pop(),
                     icon: BackIcon(),
                     splashRadius: 28),
                 left: 5,
-                top: 5)
+                top: 5),
+            Positioned(
+                child: IconButton(
+                    iconSize: 48,
+                    onPressed: () {
+                      toggleEdit();
+                    },
+                    icon: EditIcon(),
+                    splashRadius: 28),
+                right: 10,
+                top: 8),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class EditIcon extends StatelessWidget {
+  const EditIcon({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: kblack,
+        borderRadius: BorderRadius.circular(30),
+        boxShadow: [
+          BoxShadow(color: Colors.black54, blurRadius: 4, offset: Offset(0, 1))
+        ],
+      ),
+      child: Center(
+        child: Icon(Icons.edit, color: kwhite, size: 32),
       ),
     );
   }

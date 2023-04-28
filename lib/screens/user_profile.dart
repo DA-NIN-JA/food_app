@@ -24,7 +24,7 @@ class UserProfile extends StatelessWidget {
     //     .then((value) => currentUser = value)
     //     .then((value) => print(currentUser!.name));
     return FutureBuilder(
-      future: Provider.of<UserProvider>(context, listen: false).getUserInfo(),
+      future: Provider.of<UserProvider>(context, listen: false).getUserInfo(context),
       builder: (context, snapshot) {
         if (snapshot.hasData ||
             snapshot.connectionState == ConnectionState.waiting) {
@@ -42,7 +42,7 @@ class UserProfile extends StatelessWidget {
                             center: Alignment.center,
                             radius: 0.9999)),
                     height: double.infinity,
-                    width: double.infinity,   //Works without this
+                    width: double.infinity, //Works without this
                     child: snapshot.connectionState == ConnectionState.waiting
                         ? Center(
                             child: CircularProgressIndicator(color: kblack),
@@ -83,7 +83,7 @@ class UserProfile extends StatelessWidget {
                                   ),
                                   ListItem(
                                       icon: Icons.person,
-                                      title: "Edit Profile",
+                                      title: "Personal Details",
                                       onPress: () => Navigator.of(context)
                                           .pushNamed(
                                               EditProfileScreen.routeName)),
@@ -114,6 +114,7 @@ class UserProfile extends StatelessWidget {
                   ),
                   Positioned(
                       child: IconButton(
+                          iconSize: 40,
                           onPressed: () => Navigator.of(context).pop(),
                           icon: BackIcon(),
                           splashRadius: 28),

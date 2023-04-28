@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
+import 'package:food_app/reusableWidgets/dialog_box.dart';
 import 'package:provider/provider.dart';
 
 class User {
@@ -32,27 +34,68 @@ class UserProvider with ChangeNotifier {
   }
 
   void addUser(User user, String userId) {
-    FirebaseFirestore.instance.collection("users").doc(userId).set({
-      "name": user.name,
-      "email": user.email,
-      "phone": user.phone,
-      "imageUrl": user.imageUrl,
-      "address": user.address,
-    });
+    try {
+      FirebaseFirestore.instance.collection("users").doc(userId).set({
+        "name": user.name,
+        "email": user.email,
+        "phone": user.phone,
+        "imageUrl": user.imageUrl,
+        "address": user.address,
+      });
+    } on PlatformException catch (e) {
+      print(e);
+    } catch (error) {
+      print(error);
+    }
+
+    notifyListeners();
   }
 
-  Future<User> getUserInfo() async {
-    final userId = FirebaseAuth.instance.currentUser!.uid;
-    final userData =
-        await FirebaseFirestore.instance.collection("users").doc(userId).get();
-    _currentUser = User(
-      name: userData["name"],
-      email: userData["email"],
-      address: userData["address"],
-      imageUrl: userData["imageUrl"],
-      phone: userData["phone"],
-    );
+  Future<User> getUserInfo(BuildContext context) async {
+    try {
+      final userId = FirebaseAuth.instance.currentUser!.uid;
+      final userData = await FirebaseFirestore.instance
+          .collection("users")
+          .doc(userId)
+          .get();
+      _currentUser = User(
+        name: userData["name"],
+        email: userData["email"],
+        address: userData["address"],
+        imageUrl: userData["imageUrl"],
+        phone: userData["phone"],
+      );
+      notifyListeners();
+      return _currentUser;
+    } on PlatformException catch (e) {
+      ErrorDialog(context,
+          "An error has occured from the server. Please try again later.");
+      return _currentUser;
+    } catch (error) {
+      print(error);
+      ErrorDialog(context, "An error has occured. Please try again later.");
+      return _currentUser;
+    }
+  }
 
-    return _currentUser;
+  void updateUser(
+      String name, String phone, String address, BuildContext context) {
+    try {
+      final userId = FirebaseAuth.instance.currentUser!.uid;
+
+      FirebaseFirestore.instance.collection("users").doc(userId).update({
+        "name": name,
+        "phone": phone,
+        "address": address,
+      });
+    } on PlatformException catch (e) {
+      ErrorDialog(context,
+          "An error has occured from the server. Please try again later.");
+    } catch (error) {
+      print(error);
+      ErrorDialog(context, "An error has occured. Please try again later.");
+    }
+
+    notifyListeners();
   }
 }
