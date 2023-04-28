@@ -24,6 +24,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final _emailFocus = FocusNode();
   final _phoneFocus = FocusNode();
   final _addressFocus = FocusNode();
+  String initName="";
+  String initPhone="";
+  String initAddress="";
   bool _isInit = true;
   bool _editable = false;
 
@@ -31,6 +34,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     setState(() {
       _editable = !_editable;
     });
+  }
+
+  void saveForm() {
+    if (_phoneController.text.trim().length == 10) {
+      toggleEdit();
+      Provider.of<up.UserProvider>(context, listen: false).updateUser(
+        _nameController.text.trim(),
+        _phoneController.text.trim(),
+        _addressController.text.trim(),
+        context,
+      );
+    } else {
+      ErrorDialog(context, "Enter a 10-digit mobile number.");
+    }
   }
 
   @override
@@ -50,10 +67,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     final user = Provider.of<up.UserProvider>(context).currentUser;
     if (_isInit) {
-      _nameController.text = user.name;
+      initName = _nameController.text = user.name;
       _emailController.text = user.email;
-      _phoneController.text = user.phone;
-      _addressController.text = user.address;
+      initPhone = _phoneController.text = user.phone;
+      initAddress = _addressController.text = user.address;
       setState(() {
         _isInit = false;
       });
@@ -244,17 +261,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           children: [
                             Expanded(
                               child: ElevatedButton(
-                                onPressed: () {
-                                  toggleEdit();
-                                  Provider.of<up.UserProvider>(context,
-                                          listen: false)
-                                      .updateUser(
-                                    _nameController.text.trim(),
-                                    _phoneController.text.trim(),
-                                    _addressController.text.trim(),
-                                    context,
-                                  );
-                                },
+                                onPressed: saveForm,
                                 child: Text(
                                   "Save",
                                   style: TextStyle(fontSize: 36),
@@ -297,6 +304,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     iconSize: 48,
                     onPressed: () {
                       toggleEdit();
+                      _nameController.text = initName;
+                      _phoneController.text = initPhone;
+                      _addressController.text = initAddress;
                     },
                     icon: EditIcon(),
                     splashRadius: 28),
