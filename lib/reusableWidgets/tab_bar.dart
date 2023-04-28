@@ -23,10 +23,10 @@ class FloatingTabBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            IconColumn(Icons.home_rounded, "Home","/"),
-            IconColumn(FontAwesomeIcons.heart, "My Donations","/"),
+            IconColumn(Icons.home_rounded, "Home","/Home"),
+            IconColumn(FontAwesomeIcons.heart, "My Donations","/Home"),
             // IconColumn(Icons.person, "Profile"),
-            IconColumn(Icons.join_full_rounded, "Work with Us","/"),
+            IconColumn(Icons.join_full_rounded, "Work with Us","/Home"),
           ],
         ),
       ),
