@@ -139,7 +139,7 @@ class HomeScreen extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: 100),
+                                SizedBox(height: 115),
                                 Text(
                                   "“They got money for wars but can’t feed the poor.” — Tupac Shakur",
                                   style: TextStyle(
