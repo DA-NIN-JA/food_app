@@ -4,6 +4,7 @@ import 'package:food_app/constants.dart';
 import 'package:food_app/providers/provider.dart';
 import 'package:food_app/reusableWidgets/dialog_box.dart';
 import 'package:food_app/reusableWidgets/tab_bar.dart';
+import 'package:food_app/screens/NGO_page.dart';
 import 'package:food_app/screens/user_profile.dart';
 import 'package:provider/provider.dart';
 import '../reusableWidgets/user_profile_icon.dart';
@@ -117,7 +118,7 @@ class HomeScreen extends StatelessWidget {
                                 Container(
                                   alignment: Alignment.center,
                                   child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () => Navigator.of(context).pushNamed(NGOPage.routeName),
                                     child: Text(
                                       "Connect with NGOs",
                                       style: TextStyle(fontSize: 25),

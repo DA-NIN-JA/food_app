@@ -23,10 +23,10 @@ class FloatingTabBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            IconColumn(Icons.home_rounded, "Home","/Home"),
-            IconColumn(FontAwesomeIcons.heart, "My Donations","/Home"),
+            IconColumn(Icons.home_rounded, "Home", "/Home"),
+            IconColumn(FontAwesomeIcons.heart, "My Donations", "/Home"),
             // IconColumn(Icons.person, "Profile"),
-            IconColumn(Icons.join_full_rounded, "Work with Us","/Home"),
+            IconColumn(Icons.join_full_rounded, "Work with Us", "/Home"),
           ],
         ),
       ),
@@ -46,12 +46,20 @@ class IconColumn extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         GestureDetector(
-          child: Icon(icon, color: kwhite, size: 30,),
+          child: Column(
+            children: [
+              Icon(
+                icon,
+                color: kwhite,
+                size: 30,
+              ),
+              Text(
+                title,
+                style: TextStyle(fontSize: 10, color: kwhite),
+              ),
+            ],
+          ),
           onTap: () => Navigator.of(context).pushReplacementNamed(routeName),
-        ),
-        Text(
-          title,
-          style: TextStyle(fontSize: 10, color: kwhite),
         ),
       ],
     );
