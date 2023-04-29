@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:food_app/constants.dart';
+import 'package:provider/provider.dart';
+import '../constants.dart';
+import '../providers/provider.dart';
 import '../reusableWidgets/back_button.dart';
+
 
 class NGOPage extends StatelessWidget {
   static const routeName = '/NGOpage';
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: SafeArea(
         child: Stack(

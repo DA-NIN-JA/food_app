@@ -30,6 +30,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => UserProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => NGOProvider(),
+        ),
       ],
       child: MaterialApp(
         // darkTheme: ThemeData.dark(),
@@ -54,7 +57,6 @@ class MyApp extends StatelessWidget {
                 ),
               );
             } else if (snapshot.hasData) {
-              print("Hi");
               return HomeScreen();
             } else {
               return AuthPage();

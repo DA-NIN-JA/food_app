@@ -22,6 +22,52 @@ class User {
       this.phone = ""});
 }
 
+class NGO {
+  final String name;
+  final String description;
+  final String address;
+  final String cause;
+
+  NGO({
+    required this.name,
+    required this.address,
+    required this.cause,
+    required this.description,
+  });
+}
+
+class NGOProvider with ChangeNotifier {
+  List<NGO> _listNGOs = [];
+
+  List<NGO> get listNGOs {
+    return [..._listNGOs];
+  }
+
+  Future<void> getListNGOs(BuildContext context) async {
+    try {
+      final snapshot = await FirebaseFirestore.instance.collection("NGO").get();
+      for (var doc in snapshot.docs) {
+        final singleNGO = NGO(
+          name: doc["Name"],
+          address: doc["Address"],
+          cause: doc["Cause"],
+          description: doc["Description"],
+        );
+        // print(singleNGO.name);
+        _listNGOs.add(singleNGO);
+      }
+    } on PlatformException catch (e) {
+      ErrorDialog(context,
+          "An error has occured from the server. Please try again later.");
+    } catch (error) {
+      print(error);
+      ErrorDialog(context, "An error has occured. Please try again later.");
+    }
+
+    notifyListeners();
+  }
+}
+
 class UserProvider with ChangeNotifier {
   User _currentUser = User(name: "", email: "");
 
