@@ -43,8 +43,9 @@ class NGOProvider with ChangeNotifier {
     return [..._listNGOs];
   }
 
-  Future<void> getListNGOs(BuildContext context) async {
+  Future<List<NGO>> getListNGOs() async {
     try {
+      List<NGO> _temp = [];
       final snapshot = await FirebaseFirestore.instance.collection("NGO").get();
       for (var doc in snapshot.docs) {
         final singleNGO = NGO(
@@ -54,17 +55,17 @@ class NGOProvider with ChangeNotifier {
           description: doc["Description"],
         );
         // print(singleNGO.name);
-        _listNGOs.add(singleNGO);
+        _temp.add(singleNGO);
+        _listNGOs = _temp;
       }
+      notifyListeners();
+      return _listNGOs;
     } on PlatformException catch (e) {
-      ErrorDialog(context,
-          "An error has occured from the server. Please try again later.");
+      rethrow;
     } catch (error) {
       print(error);
-      ErrorDialog(context, "An error has occured. Please try again later.");
+      rethrow;
     }
-
-    notifyListeners();
   }
 }
 
@@ -99,7 +100,7 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<User> getUserInfo(BuildContext context) async {
+  Future<User> getUserInfo() async {
     try {
       final userId = FirebaseAuth.instance.currentUser!.uid;
       final userData = await FirebaseFirestore.instance
@@ -116,13 +117,10 @@ class UserProvider with ChangeNotifier {
       notifyListeners();
       return _currentUser;
     } on PlatformException catch (e) {
-      ErrorDialog(context,
-          "An error has occured from the server. Please try again later.");
-      return _currentUser;
+      rethrow;
     } catch (error) {
       print(error);
-      ErrorDialog(context, "An error has occured. Please try again later.");
-      return _currentUser;
+      rethrow;
     }
   }
 

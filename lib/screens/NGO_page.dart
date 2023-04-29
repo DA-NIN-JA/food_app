@@ -5,13 +5,13 @@ import '../constants.dart';
 import '../providers/provider.dart';
 import '../reusableWidgets/back_button.dart';
 
-
 class NGOPage extends StatelessWidget {
   static const routeName = '/NGOpage';
 
   @override
   Widget build(BuildContext context) {
-
+    final NGOItem = ModalRoute.of(context)!.settings.arguments as NGO;
+    // print(NGOItem.address);
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -37,12 +37,12 @@ class NGOPage extends StatelessWidget {
                         padding: const EdgeInsets.only(top: 16, bottom: 10),
                         child: Row(
                           children: [
-                            Icon(FontAwesomeIcons.gem, color: kblack, size: 18),
+                            Icon(FontAwesomeIcons.gem, color: kblack, size: 24),
                             SizedBox(
-                              width: 2,
+                              width: 10,
                             ),
                             Text(
-                              "For Children",
+                              "For ${NGOItem.cause}",
                               style: TextStyle(color: kblack, fontSize: 14),
                             ),
                           ],
@@ -52,10 +52,16 @@ class NGOPage extends StatelessWidget {
                         padding: const EdgeInsets.only(bottom: 16),
                         child: Row(
                           children: [
-                            Icon(Icons.location_on, color: kgrey, size: 20),
-                            Text(
-                              "Delhi,India",
-                              style: TextStyle(color: kgrey, fontSize: 14),
+                            Icon(Icons.location_on, color: kgrey, size: 24),
+                            SizedBox(width: 10,),
+                            Expanded(
+                              child: Text(NGOItem.address,
+                                  style: TextStyle(
+                                    color: kgrey,
+                                    fontSize: 14,
+                                  ),
+                                  maxLines: 3,
+                                  overflow: TextOverflow.visible),
                             ),
                           ],
                         ),
@@ -72,8 +78,7 @@ class NGOPage extends StatelessWidget {
                         child: SingleChildScrollView(
                           physics: AlwaysScrollableScrollPhysics(
                               parent: BouncingScrollPhysics()),
-                          child: Text(
-                              """ActionAid India is part of a global federation and a full affiliate of ActionAid International that has presence in over 40 countries worldwide. \n\nSince 1972, the poor and the excluded have been at the centre of their programs in India. In 2006, they got registered as an Indian organisation called ActionAid Association. \n\nThey are primarily a human rights organization. They work for the rights of disadvantaged women and children ensuring that they have good means of livelihood. ActionAid has empowered its women to take up roles in the society which till now were dominated by males,such as truck drivers, cab drivers etc."""),
+                          child: Text(NGOItem.description),
                         ),
                       ),
                       Padding(
@@ -133,9 +138,12 @@ class NGOPage extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 color: kwhite.withOpacity(0),
                 child: Text(
-                  "ActionAid India",
+                  NGOItem.name,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30,
+                  ),
                 ),
               ),
             ),

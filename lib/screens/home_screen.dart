@@ -4,6 +4,7 @@ import 'package:food_app/constants.dart';
 import 'package:food_app/providers/provider.dart';
 import 'package:food_app/reusableWidgets/dialog_box.dart';
 import 'package:food_app/reusableWidgets/tab_bar.dart';
+import 'package:food_app/screens/NGO_list_page.dart';
 import 'package:food_app/screens/NGO_page.dart';
 import 'package:food_app/screens/user_profile.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +12,6 @@ import '../reusableWidgets/user_profile_icon.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class HomeScreen extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -118,7 +118,8 @@ class HomeScreen extends StatelessWidget {
                                 Container(
                                   alignment: Alignment.center,
                                   child: ElevatedButton(
-                                    onPressed: () => Navigator.of(context).pushNamed(NGOPage.routeName),
+                                    onPressed: () => Navigator.of(context)
+                                        .pushNamed(NGOsList.routeName),
                                     child: Text(
                                       "Connect with NGOs",
                                       style: TextStyle(fontSize: 25),
@@ -177,8 +178,7 @@ class HomeScreen extends StatelessWidget {
         }
         ;
       },
-      future: Provider.of<UserProvider>(context, listen: false)
-          .getUserInfo(context),
+      future: Provider.of<UserProvider>(context, listen: false).getUserInfo(),
     );
   }
 }
