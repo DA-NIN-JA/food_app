@@ -21,11 +21,14 @@ class NGOPage extends StatelessWidget {
                       colors: [kwhite, kcyan.withOpacity(0.8)],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight)),
-              padding: EdgeInsets.fromLTRB(20, 70, 20, 0),    // Padding for the overall column
+              padding: EdgeInsets.fromLTRB(
+                  20, 70, 20, 0), // Padding for the overall column
               child: SingleChildScrollView(
-                physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                physics: AlwaysScrollableScrollPhysics(
+                    parent: BouncingScrollPhysics()),
                 child: Padding(
-                  padding: const EdgeInsets.only(bottom: 50),   // Paddint so that there is extra scroll
+                  padding: const EdgeInsets.only(
+                      bottom: 50), // Paddint so that there is extra scroll
                   child: Column(
                     children: [
                       Padding(
@@ -136,7 +139,9 @@ class NGOPage extends StatelessWidget {
             ),
             Positioned(
               child: IconButton(
-                  onPressed: () {}, icon: BackIcon(), splashRadius: 28),
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: BackIcon(),
+                  splashRadius: 28),
               left: 5,
               top: 5,
             )
