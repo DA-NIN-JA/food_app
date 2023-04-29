@@ -21,7 +21,7 @@ class NGOPage extends StatelessWidget {
                       colors: [kwhite, kcyan.withOpacity(0.8)],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight)),
-              padding: EdgeInsets.fromLTRB(20, 60, 20, 0),    // Padding for the overall column
+              padding: EdgeInsets.fromLTRB(20, 70, 20, 0),    // Padding for the overall column
               child: SingleChildScrollView(
                 physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                 child: Padding(
