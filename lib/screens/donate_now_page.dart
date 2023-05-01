@@ -9,7 +9,7 @@ import '../providers/provider.dart';
 import '../constants.dart';
 import '../reusableWidgets/back_button.dart';
 import '../screens/home_screen.dart';
-import '../reusableWidgets/dialog_box.dart';
+import '../reusableWidgets/pickUp_function.dart';
 
 class DonateNowScreen extends StatefulWidget {
   static const routeName = "/DonateNowScreen";
@@ -31,55 +31,6 @@ class _DonateNowScreenState extends State<DonateNowScreen> {
     _phoneController;
     _addressFocus;
     super.dispose();
-  }
-
-  void PickUpButton(String phone, String address) {
-    if (phone == "" || address == "") {
-      ErrorDialog(context, "Enter the details to proceed with the pickup.");
-    } else if (phone.length != 10) {
-      ErrorDialog(context, "Enter a 10-digit phone number.");
-    } else {
-      try {
-        Provider.of<UserProvider>(context, listen: false)
-            .addDonationTransaction(phone, address);
-        Alert(
-          context: context,
-          type: AlertType.success,
-          title: "Donation Successful!!",
-          style: AlertStyle(
-            titleStyle: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          closeIcon: SizedBox(),
-          buttons: [
-            DialogButton(
-              child: Text(
-                "OK",
-                style: TextStyle(color: kwhite),
-              ),
-              onPressed: () => Navigator.of(context).pop(),
-              color: kblack,
-            ),
-          ],
-          content: Text(
-            "We are on our way to pick up your parcel.",
-            style: TextStyle(fontSize: 16),
-            textAlign: TextAlign.center,
-          ),
-        ).show().then((value) => Navigator.of(context).pop());
-      } on PlatformException catch (e) {
-        ErrorDialog(context,
-            "An error occured from the server. Please try again later.");
-        return;
-      } catch (error) {
-        print(error);
-        ErrorDialog(
-            context, "An unknown error occured. Please try again later.");
-        return;
-      }
-    }
   }
 
   @override
@@ -225,6 +176,7 @@ class _DonateNowScreenState extends State<DonateNowScreen> {
                           ),
                         ),
                         onPressed: () => PickUpButton(
+                          context,
                           _phoneController.text.trim(),
                           _addressController.text.trim(),
                         ),

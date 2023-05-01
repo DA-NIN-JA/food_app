@@ -14,6 +14,7 @@ import 'package:provider/provider.dart';
 import '../reusableWidgets/user_profile_icon.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import '../reusableWidgets/pickUp_function.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -49,9 +50,9 @@ class HomeScreen extends StatelessWidget {
                               // mainAxisAlignment: MainAxisAlignment.spaceAround,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Container(
+                                FittedBox(
                                   child: Text(
-                                    "Hi ${userData!.name},",
+                                    "Hi ${userData!.name.split(" ")[0]},",
                                     style: TextStyle(
                                         fontSize: 36,
                                         fontWeight: FontWeight.w600,
@@ -211,51 +212,6 @@ class BottomSheetContainer extends StatelessWidget {
 
   final up.User? userData;
 
-  void onSwipe(BuildContext context, String phone, String address) async {
-    try {
-      Provider.of<up.UserProvider>(context, listen: false)
-          .addDonationTransaction(phone, address);
-      Alert(
-        context: context,
-        type: AlertType.success,
-        title: "Donation Successful!!",
-        style: AlertStyle(
-          titleStyle: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        closeIcon: SizedBox(),
-        buttons: [
-          DialogButton(
-            child: Text(
-              "OK",
-              style: TextStyle(color: kwhite),
-            ),
-            onPressed: () => Navigator.of(context).pop(),
-            color: kblack,
-          ),
-        ],
-        content: Text(
-          "We are on our way to pick up your parcel.",
-          style: TextStyle(fontSize: 16),
-          textAlign: TextAlign.center,
-        ),
-      ).show().then((value) async {
-        await Future.delayed(Duration(seconds: 3));
-        Navigator.of(context).pop();
-      });
-    } on PlatformException catch (e) {
-      ErrorDialog(
-          context, "An error occured from the server. Please try again later.");
-      return;
-    } catch (error) {
-      print(error);
-      ErrorDialog(context, "An unknown error occured. Please try again later.");
-      return;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -381,7 +337,7 @@ class BottomSheetContainer extends StatelessWidget {
                     ),
                   ),
                   onDismissed: (direction) async => {
-                    onSwipe(context, userData!.phone, userData!.address),
+                    PickUpButton(context, userData!.phone, userData!.address,isSwipe: true),
                   },
                 ),
               ],
