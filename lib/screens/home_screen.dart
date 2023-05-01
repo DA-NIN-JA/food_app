@@ -1,12 +1,13 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:food_app/constants.dart';
-import 'package:food_app/providers/provider.dart';
-import 'package:food_app/reusableWidgets/dialog_box.dart';
-import 'package:food_app/reusableWidgets/tab_bar.dart';
-import 'package:food_app/screens/NGO_list_page.dart';
-import 'package:food_app/screens/NGO_page.dart';
-import 'package:food_app/screens/user_profile.dart';
+import '../constants.dart';
+import '../providers/provider.dart' as up;
+import '../reusableWidgets/dialog_box.dart';
+import '../reusableWidgets/tab_bar.dart';
+import '../screens/NGO_list_page.dart';
+import '../screens/NGO_page.dart';
+import '../screens/user_profile.dart';
 import 'package:provider/provider.dart';
 import '../reusableWidgets/user_profile_icon.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,6 +19,7 @@ class HomeScreen extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasData ||
             snapshot.connectionState == ConnectionState.waiting) {
+          final userData = snapshot.data;
           return Scaffold(
             // appBar: AppBar(),
             body: SafeArea(
@@ -91,7 +93,21 @@ class HomeScreen extends StatelessWidget {
                                   padding: EdgeInsets.all(10),
                                   alignment: Alignment.center,
                                   child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      if (userData!.address != "" &&
+                                          userData.phone != "") {
+                                        showModalBottomSheet(
+                                          context: context,
+                                          builder: (context) {
+                                            return BottomSheetContainer(
+                                                userData: userData);
+                                          },
+                                        );
+                                      } else {
+                                        Navigator.of(context)
+                                            .pushNamed(UserProfile.routeName);
+                                      }
+                                    },
                                     style: ButtonStyle(
                                       backgroundColor:
                                           MaterialStatePropertyAll(kblack),
@@ -178,7 +194,187 @@ class HomeScreen extends StatelessWidget {
         }
         ;
       },
-      future: Provider.of<UserProvider>(context, listen: false).getUserInfo(),
+      future:
+          Provider.of<up.UserProvider>(context, listen: false).getUserInfo(),
+    );
+  }
+}
+
+class BottomSheetContainer extends StatelessWidget {
+  const BottomSheetContainer({
+    super.key,
+    required this.userData,
+  });
+
+  final up.User? userData;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+            colors: [kwhite, kcyan.withOpacity(0.6)],
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          BottomSheetInfoRow(title: "Pick-up from: ", info: userData!.name),
+          SizedBox(
+            height: 20,
+          ),
+          BottomSheetInfoRow(
+            title: "Pick-up Address: ",
+            info: userData!.address,
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          BottomSheetInfoRow(title: "Phone: ", info: userData!.phone),
+          SizedBox(
+            height: 60,
+          ),
+          BottomSheetInfoRow(title: "Pick-up Charges", info: "₹50"),
+          SizedBox(
+            height: 5,
+          ),
+          Divider(
+            thickness: 2,
+            color: kblack.withOpacity(0.7),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          BottomSheetInfoRow(
+            title: "Total Charges",
+            info: "₹50",
+            bold: true,
+          ),
+          SizedBox(
+            height: 30,
+          ),
+          Stack(
+            children: [
+              Container(
+                width: double.infinity,
+                alignment: Alignment.center,
+                height: 60,
+                decoration: BoxDecoration(
+                  color: Colors.greenAccent,
+                  // borderRadius:
+                  //     BorderRadius
+                  //         .circular(
+                  //             10),
+                ),
+                child: Text(
+                  "On Our Way!!",
+                  style: TextStyle(
+                      color: kwhite, fontSize: 28, fontWeight: FontWeight.bold),
+                ),
+              ),
+              Dismissible(
+                key: UniqueKey(),
+                child: Container(
+                  width: double.infinity,
+                  alignment: Alignment.center,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: Colors.greenAccent,
+                    // borderRadius:
+                    //     BorderRadius
+                    //         .circular(10),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Swipe to Donate",
+                        style: TextStyle(
+                            color: kwhite,
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: kwhite,
+                      ),
+                      Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: kwhite,
+                      ),
+                      Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: kwhite,
+                      ),
+                    ],
+                  ),
+                ),
+                dragStartBehavior: DragStartBehavior.start,
+                background: Container(
+                  width: double.infinity,
+                  alignment: Alignment.center,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: Colors.greenAccent,
+                    // borderRadius:
+                    //     BorderRadius
+                    //         .circular(10),
+                  ),
+                ),
+                onDismissed: (direction) async => {
+                  await Future.delayed(
+                    Duration(seconds: 2),
+                  ),
+                  Navigator.of(context).pop()
+                },
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class BottomSheetInfoRow extends StatelessWidget {
+  final String title;
+  final String info;
+  final bool bold;
+
+  BottomSheetInfoRow(
+      {required this.title, required this.info, this.bold = false});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: kgrey,
+            fontSize: 16,
+          ),
+        ),
+        Expanded(
+          child: Text(
+            info,
+            style: TextStyle(
+              color: kblack,
+              fontSize: 16,
+              fontWeight: bold ? FontWeight.bold : null,
+            ),
+            maxLines: 3,
+            overflow: TextOverflow.visible,
+            textAlign: TextAlign.end,
+          ),
+        ),
+      ],
     );
   }
 }

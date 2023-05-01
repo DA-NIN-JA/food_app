@@ -11,7 +11,6 @@ import 'package:food_app/screens/edit_profile_screen.dart';
 import 'package:food_app/screens/home_screen.dart';
 import 'package:food_app/screens/user_profile.dart';
 import 'package:provider/provider.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
