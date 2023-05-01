@@ -1,6 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:food_app/screens/donate_now_page.dart';
 import '../constants.dart';
 import '../providers/provider.dart' as up;
 import '../reusableWidgets/dialog_box.dart';
@@ -11,6 +13,7 @@ import '../screens/user_profile.dart';
 import 'package:provider/provider.dart';
 import '../reusableWidgets/user_profile_icon.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -48,7 +51,7 @@ class HomeScreen extends StatelessWidget {
                               children: [
                                 Container(
                                   child: Text(
-                                    "Hi Dhairya,",
+                                    "Hi ${userData!.name},",
                                     style: TextStyle(
                                         fontSize: 36,
                                         fontWeight: FontWeight.w600,
@@ -94,7 +97,7 @@ class HomeScreen extends StatelessWidget {
                                   alignment: Alignment.center,
                                   child: ElevatedButton(
                                     onPressed: () {
-                                      if (userData!.address != "" &&
+                                      if (userData.address != "" &&
                                           userData.phone != "") {
                                         showModalBottomSheet(
                                           context: context,
@@ -104,8 +107,8 @@ class HomeScreen extends StatelessWidget {
                                           },
                                         );
                                       } else {
-                                        Navigator.of(context)
-                                            .pushNamed(UserProfile.routeName);
+                                        Navigator.of(context).pushNamed(
+                                            DonateNowScreen.routeName);
                                       }
                                     },
                                     style: ButtonStyle(
@@ -208,75 +211,108 @@ class BottomSheetContainer extends StatelessWidget {
 
   final up.User? userData;
 
+  void onSwipe(BuildContext context, String phone, String address) async {
+    try {
+      Provider.of<up.UserProvider>(context, listen: false)
+          .addDonationTransaction(phone, address);
+      Alert(
+        context: context,
+        type: AlertType.success,
+        title: "Donation Successful!!",
+        style: AlertStyle(
+          titleStyle: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        closeIcon: SizedBox(),
+        buttons: [
+          DialogButton(
+            child: Text(
+              "OK",
+              style: TextStyle(color: kwhite),
+            ),
+            onPressed: () => Navigator.of(context).pop(),
+            color: kblack,
+          ),
+        ],
+        content: Text(
+          "We are on our way to pick up your parcel.",
+          style: TextStyle(fontSize: 16),
+          textAlign: TextAlign.center,
+        ),
+      ).show().then((value) async {
+        await Future.delayed(Duration(seconds: 3));
+        Navigator.of(context).pop();
+      });
+    } on PlatformException catch (e) {
+      ErrorDialog(
+          context, "An error occured from the server. Please try again later.");
+      return;
+    } catch (error) {
+      print(error);
+      ErrorDialog(context, "An unknown error occured. Please try again later.");
+      return;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-            colors: [kwhite, kcyan.withOpacity(0.6)],
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          BottomSheetInfoRow(title: "Pick-up from: ", info: userData!.name),
-          SizedBox(
-            height: 20,
-          ),
-          BottomSheetInfoRow(
-            title: "Pick-up Address: ",
-            info: userData!.address,
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          BottomSheetInfoRow(title: "Phone: ", info: userData!.phone),
-          SizedBox(
-            height: 60,
-          ),
-          BottomSheetInfoRow(title: "Pick-up Charges", info: "₹50"),
-          SizedBox(
-            height: 5,
-          ),
-          Divider(
-            thickness: 2,
-            color: kblack.withOpacity(0.7),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          BottomSheetInfoRow(
-            title: "Total Charges",
-            info: "₹50",
-            bold: true,
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Stack(
-            children: [
-              Container(
-                width: double.infinity,
-                alignment: Alignment.center,
-                height: 60,
-                decoration: BoxDecoration(
-                  color: Colors.greenAccent,
-                  // borderRadius:
-                  //     BorderRadius
-                  //         .circular(
-                  //             10),
-                ),
-                child: Text(
-                  "On Our Way!!",
-                  style: TextStyle(
-                      color: kwhite, fontSize: 28, fontWeight: FontWeight.bold),
-                ),
-              ),
-              Dismissible(
-                key: UniqueKey(),
-                child: Container(
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).pop();
+        Navigator.of(context).pushNamed(DonateNowScreen.routeName);
+      },
+      child: Container(
+        width: double.infinity,
+        height: double.infinity,
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              colors: [kwhite, kcyan.withOpacity(0.6)],
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            BottomSheetInfoRow(title: "Pick-up from: ", info: userData!.name),
+            SizedBox(
+              height: 20,
+            ),
+            BottomSheetInfoRow(
+              title: "Pick-up Address: ",
+              info: userData!.address,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            BottomSheetInfoRow(title: "Phone: ", info: userData!.phone),
+            SizedBox(
+              height: 60,
+            ),
+            BottomSheetInfoRow(title: "Pick-up Charges", info: "₹50"),
+            SizedBox(
+              height: 5,
+            ),
+            Divider(
+              thickness: 2,
+              color: kblack.withOpacity(0.7),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            BottomSheetInfoRow(
+              title: "Total Charges",
+              info: "₹50",
+              bold: true,
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Stack(
+              children: [
+                Container(
                   width: double.infinity,
                   alignment: Alignment.center,
                   height: 60,
@@ -284,55 +320,74 @@ class BottomSheetContainer extends StatelessWidget {
                     color: Colors.greenAccent,
                     // borderRadius:
                     //     BorderRadius
-                    //         .circular(10),
+                    //         .circular(
+                    //             10),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Swipe to Donate",
-                        style: TextStyle(
-                            color: kwhite,
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      Icon(
-                        Icons.arrow_forward_ios_rounded,
+                  child: Text(
+                    "On Our Way!!",
+                    style: TextStyle(
                         color: kwhite,
-                      ),
-                      Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        color: kwhite,
-                      ),
-                      Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        color: kwhite,
-                      ),
-                    ],
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
-                dragStartBehavior: DragStartBehavior.start,
-                background: Container(
-                  width: double.infinity,
-                  alignment: Alignment.center,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    color: Colors.greenAccent,
-                    // borderRadius:
-                    //     BorderRadius
-                    //         .circular(10),
+                Dismissible(
+                  key: UniqueKey(),
+                  child: Container(
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      color: Colors.greenAccent,
+                      // borderRadius:
+                      //     BorderRadius
+                      //         .circular(10),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Swipe to Donate",
+                          style: TextStyle(
+                              color: kwhite,
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          color: kwhite,
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          color: kwhite,
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          color: kwhite,
+                        ),
+                      ],
+                    ),
                   ),
+                  dragStartBehavior: DragStartBehavior.start,
+                  background: Container(
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      color: Colors.greenAccent,
+                      // borderRadius:
+                      //     BorderRadius
+                      //         .circular(10),
+                    ),
+                  ),
+                  onDismissed: (direction) async => {
+                    onSwipe(context, userData!.phone, userData!.address),
+                  },
                 ),
-                onDismissed: (direction) async => {
-                  await Future.delayed(
-                    Duration(seconds: 2),
-                  ),
-                  Navigator.of(context).pop()
-                },
-              ),
-            ],
-          )
-        ],
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

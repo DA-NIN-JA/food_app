@@ -44,7 +44,7 @@ class NGOsList extends StatelessWidget {
                           )
                         : Padding(
                             padding: const EdgeInsets.only(
-                                top: 70), // It is the padding for stack.
+                                top: 80), // It is the padding for stack.
                             child: ListView.builder(
                               padding: EdgeInsets.only(
                                   bottom: 10), // It is the padding in scroll.
@@ -58,7 +58,7 @@ class NGOsList extends StatelessWidget {
                           ),
                   ),
                   Positioned(
-                    top: 30,
+                    top: 40,
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       color: kwhite.withOpacity(0),
@@ -67,7 +67,7 @@ class NGOsList extends StatelessWidget {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 32,
+                          fontSize: 34,
                         ),
                       ),
                     ),

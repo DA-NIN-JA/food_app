@@ -7,6 +7,7 @@ import 'package:food_app/providers/provider.dart';
 import 'package:food_app/screens/AuthPage.dart';
 import 'package:food_app/screens/NGO_list_page.dart';
 import 'package:food_app/screens/NGO_page.dart';
+import 'package:food_app/screens/donate_now_page.dart';
 import 'package:food_app/screens/edit_profile_screen.dart';
 import 'package:food_app/screens/home_screen.dart';
 import 'package:food_app/screens/user_profile.dart';
@@ -71,6 +72,7 @@ class MyApp extends StatelessWidget {
           NGOsList.routeName: (context) => NGOsList(),
           EditProfileScreen.routeName: (context) => EditProfileScreen(),
           AuthPage.routeName: (context) => AuthPage(),
+          DonateNowScreen.routeName: (context) => DonateNowScreen(),
         },
       ),
     );

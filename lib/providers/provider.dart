@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:food_app/main.dart';
 import 'package:food_app/reusableWidgets/dialog_box.dart';
 import 'package:provider/provider.dart';
@@ -146,7 +147,25 @@ class UserProvider with ChangeNotifier {
       print(error);
       ErrorDialog(context, "An error has occured. Please try again later.");
     }
-
     notifyListeners();
+  }
+
+  void addDonationTransaction(String phone, String address) {
+    try {
+      final userId = FirebaseAuth.instance.currentUser!.uid;
+
+      FirebaseFirestore.instance.collection("users/history/${userId}").doc().set({
+        "phone": phone,
+        "address": address,
+        "Date": DateTime.now(),
+        "total": 50,
+      });
+    } on PlatformException catch (e) {
+      print(e);
+      rethrow;
+    } catch (error) {
+      print(error);
+      rethrow;
+    }
   }
 }

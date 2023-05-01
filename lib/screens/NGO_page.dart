@@ -33,6 +33,13 @@ class NGOPage extends StatelessWidget {
                       bottom: 50), // Paddint so that there is extra scroll
                   child: Column(
                     children: [
+                      Divider(
+                      color: kgrey,
+                      thickness: 2,
+                    ),
+                    // SizedBox(
+                    //   height: 30,
+                    // ),
                       Padding(
                         padding: const EdgeInsets.only(top: 16, bottom: 10),
                         child: Row(
