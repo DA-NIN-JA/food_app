@@ -184,7 +184,7 @@ class _JoinUsPageState extends State<JoinUsPage> {
                       radius: 0.9999)),
               height: double.infinity,
               width: double.infinity,
-              padding: EdgeInsets.only(top: 80, bottom: 115),
+              padding: EdgeInsets.only(top: 80, bottom: 120),
               child: SingleChildScrollView(
                 physics: AlwaysScrollableScrollPhysics(
                     parent: BouncingScrollPhysics()),
@@ -368,15 +368,15 @@ class _JoinUsPageState extends State<JoinUsPage> {
               left: 20,
               right: 20,
             ),
-            Positioned(
-              child: Container(
-                height: 115,
-                color: kwhite.withOpacity(0.2),
-              ),
-              bottom: 0,
-              left: 0,
-              right: 0,
-            ),
+            // Positioned(
+            //   child: Container(
+            //     height: 115,
+            //     color: kwhite.withOpacity(0.2),
+            //   ),
+            //   bottom: 0,
+            //   left: 0,
+            //   right: 0,
+            // ),
             Positioned(
               child: Center(child: FloatingTabBar()),
               bottom: 50,

@@ -106,7 +106,7 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
                                   top: 110), // It is the padding for stack.
                               child: ListView.builder(
                                 padding: EdgeInsets.only(
-                                    bottom: 10), // It is the padding in scroll.
+                                    bottom: 120), // It is the padding in scroll.
                                 physics: AlwaysScrollableScrollPhysics(
                                     parent: BouncingScrollPhysics()),
                                 itemBuilder: (context, index) {
@@ -142,7 +142,7 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
                     ),
                     Positioned(
                       child: Container(
-                        height: 115,
+                        height: 114,
                         color: kwhite.withOpacity(0.2),
                       ),
                       bottom: 0,
