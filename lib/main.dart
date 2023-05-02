@@ -11,6 +11,7 @@ import 'package:food_app/screens/donate_now_page.dart';
 import 'package:food_app/screens/donation_history_page.dart';
 import 'package:food_app/screens/edit_profile_screen.dart';
 import 'package:food_app/screens/home_screen.dart';
+import 'package:food_app/screens/join_us_page.dart';
 import 'package:food_app/screens/user_profile.dart';
 import 'package:provider/provider.dart';
 
@@ -78,6 +79,7 @@ class MyApp extends StatelessWidget {
           AuthPage.routeName: (context) => AuthPage(),
           DonateNowScreen.routeName: (context) => DonateNowScreen(),
           DonationHistoryScreen.routeName: (context) => DonationHistoryScreen(),
+          JoinUsPage.routeName: (context) => JoinUsPage(),
         },
       ),
     );

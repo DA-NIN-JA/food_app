@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:food_app/constants.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:food_app/screens/donation_history_page.dart';
+import 'package:food_app/screens/join_us_page.dart';
 import 'package:food_app/screens/user_profile.dart';
 
 class FloatingTabBar extends StatelessWidget {
@@ -27,7 +28,7 @@ class FloatingTabBar extends StatelessWidget {
             IconColumn(Icons.home_rounded, "Home", "/Home"),
             IconColumn(FontAwesomeIcons.heart, "My Donations", DonationHistoryScreen.routeName),
             // IconColumn(Icons.person, "Profile"),
-            IconColumn(Icons.join_full_rounded, "Work with Us", "/Home"),
+            IconColumn(Icons.join_full_rounded, "Work with Us", JoinUsPage.routeName),
           ],
         ),
       ),
