@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../providers/provider.dart' as up;
@@ -35,6 +36,7 @@ class _JoinUsPageState extends State<JoinUsPage> {
   // String initPhone = "";
   // String initAddress = "";
   // bool _isInit = true;
+  var _exit = false;
 
   void causeValue(String value) {
     setState(() {
@@ -120,7 +122,55 @@ class _JoinUsPageState extends State<JoinUsPage> {
     //     _isInit = false;
     //   });
     // }
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: () async {
+        Alert(
+          context: context,
+          type: AlertType.warning,
+          title: "Caution!",
+          style: AlertStyle(
+            titleStyle: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          closeIcon: SizedBox(),
+          buttons: [
+            DialogButton(
+              child: Text(
+                "YES",
+                style: TextStyle(color: kgrey),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+                setState(() {
+                  _exit = true;
+                });
+                SystemNavigator.pop();
+              },
+              color: kwhite,
+            ),
+            DialogButton(
+              child: Text(
+                "NO",
+                style: TextStyle(color: kwhite),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              color: kblack,
+            ),
+          ],
+          content: Text(
+            "Are you sure you want to exit the app?",
+            style: TextStyle(fontSize: 16),
+            textAlign: TextAlign.center,
+          ),
+        ).show();
+
+        return _exit;
+      },
+      child:Scaffold(
       // appBar: AppBar(backgroundColor: kwhite,elevation: 0,),
       backgroundColor: kwhite,
       body: SafeArea(
@@ -336,7 +386,7 @@ class _JoinUsPageState extends State<JoinUsPage> {
           ],
         ),
       ),
-    );
+    ),);
   }
 }
 
