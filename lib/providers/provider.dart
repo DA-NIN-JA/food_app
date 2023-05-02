@@ -154,7 +154,10 @@ class UserProvider with ChangeNotifier {
     try {
       final userId = FirebaseAuth.instance.currentUser!.uid;
 
-      FirebaseFirestore.instance.collection("users/history/${userId}").doc().set({
+      FirebaseFirestore.instance
+          .collection("users/history/${userId}")
+          .doc()
+          .set({
         "phone": phone,
         "address": address,
         "Date": DateTime.now(),
@@ -162,6 +165,52 @@ class UserProvider with ChangeNotifier {
       });
     } on PlatformException catch (e) {
       print(e);
+      rethrow;
+    } catch (error) {
+      print(error);
+      rethrow;
+    }
+  }
+}
+
+class DonationData {
+  final String address;
+  final String total;
+  final String id;
+  final DateTime date;
+
+  DonationData({
+    required this.address,
+    required this.id,
+    required this.date,
+    required this.total,
+  });
+}
+
+class HistoryProvider with ChangeNotifier {
+  List<DonationData> _listDonation = [];
+
+  Future<List<DonationData>> getListDonations() async {
+    try {
+      final userId = FirebaseAuth.instance.currentUser!.uid;
+      List<DonationData> _temp = [];
+      final snapshot = await FirebaseFirestore.instance
+          .collection("users/history/$userId")
+          .get();
+      for (var doc in snapshot.docs) {
+        final singleDonation = DonationData(
+          address: doc["address"],
+          id: doc.id.substring(0, 8),
+          date: (doc["Date"]as Timestamp).toDate(),
+          total: doc["total"].toString(),
+        );
+        // print(singleNGO.name);
+        _temp.add(singleDonation);
+        _listDonation = _temp;
+      }
+      notifyListeners();
+      return _listDonation;
+    } on PlatformException catch (e) {
       rethrow;
     } catch (error) {
       print(error);

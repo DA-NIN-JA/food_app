@@ -8,6 +8,7 @@ import 'package:food_app/screens/AuthPage.dart';
 import 'package:food_app/screens/NGO_list_page.dart';
 import 'package:food_app/screens/NGO_page.dart';
 import 'package:food_app/screens/donate_now_page.dart';
+import 'package:food_app/screens/donation_history_page.dart';
 import 'package:food_app/screens/edit_profile_screen.dart';
 import 'package:food_app/screens/home_screen.dart';
 import 'package:food_app/screens/user_profile.dart';
@@ -32,6 +33,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => NGOProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => HistoryProvider(),
         ),
       ],
       child: MaterialApp(
@@ -73,6 +77,7 @@ class MyApp extends StatelessWidget {
           EditProfileScreen.routeName: (context) => EditProfileScreen(),
           AuthPage.routeName: (context) => AuthPage(),
           DonateNowScreen.routeName: (context) => DonateNowScreen(),
+          DonationHistoryScreen.routeName: (context) => DonationHistoryScreen(),
         },
       ),
     );
