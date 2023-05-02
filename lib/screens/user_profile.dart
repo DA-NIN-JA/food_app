@@ -42,8 +42,10 @@ class UserProfile extends StatelessWidget {
                       children: [
                         Center(
                           child: CircleAvatar(
-                            foregroundImage:
-                                NetworkImage("https://picsum.photos/200"),
+                            // foregroundImage:
+                            //     NetworkImage("https://picsum.photos/200"),
+                            backgroundColor: Colors.grey[500],
+                            child: Icon(Icons.person,color: kwhite,size: 100,),
                             radius: 60,
                           ),
                         ),
