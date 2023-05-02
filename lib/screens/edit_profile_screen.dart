@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../providers/provider.dart' as up;
 import '../reusableWidgets/dialog_box.dart';
@@ -25,9 +26,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final _emailFocus = FocusNode();
   final _phoneFocus = FocusNode();
   final _addressFocus = FocusNode();
-  String initName="";
-  String initPhone="";
-  String initAddress="";
+  String initName = "";
+  String initPhone = "";
+  String initAddress = "";
   bool _isInit = true;
   bool _editable = false;
 
@@ -46,6 +47,35 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         _addressController.text.trim(),
         context,
       );
+      Alert(
+        context: context,
+        type: AlertType.success,
+        title: "Changes Successful!!",
+        style: AlertStyle(
+          titleStyle: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        closeIcon: SizedBox(),
+        buttons: [
+          DialogButton(
+            child: Text(
+              "OK",
+              style: TextStyle(color: kwhite),
+            ),
+            onPressed: () => Navigator.of(context).pop(),
+            color: kblack,
+          ),
+        ],
+        // content: Text(
+        //   "We are on our way to pick up your parcel.",
+        //   style: TextStyle(fontSize: 16),
+        //   textAlign: TextAlign.center,
+        // ),
+      ).show().then((value) async {
+        Navigator.of(context).pop();
+      });
     } else {
       ErrorDialog(context, "Enter a 10-digit mobile number.");
     }
@@ -335,7 +365,8 @@ class EditIcon extends StatelessWidget {
         ],
       ),
       child: Center(
-        child: Icon( editable? FontAwesomeIcons.arrowRotateLeft: Icons.edit, color: kwhite, size:editable?28: 32),
+        child: Icon(editable ? FontAwesomeIcons.arrowRotateLeft : Icons.edit,
+            color: kwhite, size: editable ? 28 : 32),
       ),
     );
   }

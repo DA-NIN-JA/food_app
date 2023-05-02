@@ -68,6 +68,23 @@ class NGOProvider with ChangeNotifier {
       rethrow;
     }
   }
+
+  void addNGO(NGO ngo) {
+    try {
+      FirebaseFirestore.instance.collection("NGO").doc().set({
+        "Name":ngo.name,
+        "Address":ngo.address,
+        "Cause":ngo.cause,
+        "Description":ngo.description,
+      });
+    } on PlatformException catch (e) {
+      print(e);
+    } catch (error) {
+      print(error);
+    }
+
+    notifyListeners();
+  }
 }
 
 class UserProvider with ChangeNotifier {
@@ -147,6 +164,7 @@ class UserProvider with ChangeNotifier {
       print(error);
       ErrorDialog(context, "An error has occured. Please try again later.");
     }
+    getUserInfo();
     notifyListeners();
   }
 
