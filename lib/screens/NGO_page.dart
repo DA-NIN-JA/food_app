@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 import '../constants.dart';
 import '../providers/provider.dart';
 import '../reusableWidgets/back_button.dart';
@@ -23,10 +22,10 @@ class NGOPage extends StatelessWidget {
                       colors: [kwhite, kcyan.withOpacity(0.8)],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight)),
-              padding: EdgeInsets.fromLTRB(
+              padding: const EdgeInsets.fromLTRB(
                   20, 80, 20, 0), // Padding for the overall column
               child: SingleChildScrollView(
-                physics: AlwaysScrollableScrollPhysics(
+                physics: const AlwaysScrollableScrollPhysics(
                     parent: BouncingScrollPhysics()),
                 child: Padding(
                   padding: const EdgeInsets.only(
@@ -37,13 +36,13 @@ class NGOPage extends StatelessWidget {
                         padding: const EdgeInsets.only( bottom: 10),
                         child: Row(
                           children: [
-                            Icon(FontAwesomeIcons.gem, color: kblack, size: 24),
-                            SizedBox(
+                            const Icon(FontAwesomeIcons.gem, color: kblack, size: 24),
+                            const SizedBox(
                               width: 10,
                             ),
                             Text(
                               "For ${NGOItem.cause}",
-                              style: TextStyle(color: kblack, fontSize: 14),
+                              style: const TextStyle(color: kblack, fontSize: 14),
                             ),
                           ],
                         ),
@@ -52,11 +51,11 @@ class NGOPage extends StatelessWidget {
                         padding: const EdgeInsets.only(bottom: 16),
                         child: Row(
                           children: [
-                            Icon(Icons.location_on, color: kgrey, size: 24),
-                            SizedBox(width: 10,),
+                            const Icon(Icons.location_on, color: kgrey, size: 24),
+                            const SizedBox(width: 10,),
                             Expanded(
                               child: Text(NGOItem.address,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: kgrey,
                                     fontSize: 14,
                                   ),
@@ -73,10 +72,10 @@ class NGOPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(25),
                           border: Border.all(color: kgrey),
                         ),
-                        padding: EdgeInsets.all(14),
+                        padding: const EdgeInsets.all(14),
                         // margin: EdgeInsets.symmetric(vertical: 8),
                         child: SingleChildScrollView(
-                          physics: AlwaysScrollableScrollPhysics(
+                          physics: const AlwaysScrollableScrollPhysics(
                               parent: BouncingScrollPhysics()),
                           child: Text(NGOItem.description),
                         ),
@@ -97,7 +96,7 @@ class NGOPage extends StatelessWidget {
                                     icon: Icons.call,
                                     title: "Phone",
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 28,
                                   ),
                                   IconLabelButton(
@@ -108,7 +107,7 @@ class NGOPage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Container(
@@ -140,7 +139,7 @@ class NGOPage extends StatelessWidget {
                 child: Text(
                   NGOItem.name,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 30,
                   ),
@@ -148,14 +147,14 @@ class NGOPage extends StatelessWidget {
               ),
             ),
             Positioned(
-              child: IconButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  icon: BackIcon(),
-                  splashRadius: 28),
               left: 5,
               top: 5,
+              child: IconButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: const BackIcon(),
+                  splashRadius: 28),
             ),
-            Positioned(child: Divider(color: kgrey,thickness: 2,),top: 70,left: 20,right: 20,)
+            const Positioned(top: 70,left: 20,right: 20,child: Divider(color: kgrey,thickness: 2,),)
           ],
         ),
       ),
@@ -179,7 +178,7 @@ class IconLabelButton extends StatelessWidget {
             icon,
             size: 28,
           ),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
           Text(title),

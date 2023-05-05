@@ -13,10 +13,10 @@ class BackIcon extends StatelessWidget {
         color: kblack,
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
-          BoxShadow(color: Colors.black54, blurRadius: 4, offset: Offset(0, 1))
+          const BoxShadow(color: Colors.black54, blurRadius: 4, offset: Offset(0, 1))
         ],
       ),
-      child: Center(
+      child: const Center(
         child: Icon(Icons.arrow_back, color: kwhite, size: 28),
       ),
     );

@@ -21,7 +21,7 @@ class ProfileIcon extends StatelessWidget {
           ),
           height: 50,
           width: 50,
-          child: Icon(Icons.person, color: kblack, size: 36),
+          child: const Icon(Icons.person, color: kblack, size: 36),
         ),
       ),
     );

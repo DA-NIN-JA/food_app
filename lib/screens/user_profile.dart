@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:food_app/constants.dart';
 import 'package:food_app/providers/provider.dart';
-import 'package:food_app/screens/AuthPage.dart';
 import 'package:food_app/screens/edit_profile_screen.dart';
 import 'package:provider/provider.dart';
-import '../providers/provider.dart' as up;
 import '../reusableWidgets/back_button.dart';
 
 class UserProfile extends StatelessWidget {
@@ -28,7 +25,7 @@ class UserProfile extends StatelessWidget {
           child: Stack(
             children: [
               Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     gradient: RadialGradient(
                         colors: [kwhite, kcyan],
                         center: Alignment.center,
@@ -37,7 +34,7 @@ class UserProfile extends StatelessWidget {
                 width: double.infinity, //Works without this
                 child: SingleChildScrollView(
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
+                    padding: const EdgeInsets.fromLTRB(20, 30, 20, 0),
                     child: Column(
                       children: [
                         Center(
@@ -45,29 +42,29 @@ class UserProfile extends StatelessWidget {
                             // foregroundImage:
                             //     NetworkImage("https://picsum.photos/200"),
                             backgroundColor: Colors.grey[500],
-                            child: Icon(Icons.person,color: kwhite,size: 100,),
                             radius: 60,
+                            child: const Icon(Icons.person,color: kwhite,size: 100,),
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.only(top: 8),
+                          padding: const EdgeInsets.only(top: 8),
                           child: Text(
                             currentUser.name,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.only(top: 8),
+                          padding: const EdgeInsets.only(top: 8),
                           child: Text(
                             currentUser.email,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 12,
                                 color: kgrey,
                                 fontWeight: FontWeight.w500),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         ListItem(
@@ -92,7 +89,7 @@ class UserProfile extends StatelessWidget {
                             title: "Logout",
                             trailings: false,
                           onPress: () => Provider.of<UserProvider>(context,listen: false).logout(context)),
-                        SizedBox(
+                        const SizedBox(
                           height: 300,
                         )
                       ],
@@ -101,19 +98,19 @@ class UserProfile extends StatelessWidget {
                 ),
               ),
               Positioned(
+                  left: 5,
+                  top: 5,
                   child: IconButton(
                       iconSize: 40,
                       onPressed: () => Navigator.of(context).pop(),
-                      icon: BackIcon(),
-                      splashRadius: 28),
-                  left: 5,
-                  top: 5)
+                      icon: const BackIcon(),
+                      splashRadius: 28))
             ],
           ),
         ),
       );
     } else {
-      return Scaffold(
+      return const Scaffold(
         body: Center(
           child: Text("An error occured. Please try again later."),
         ),
@@ -142,23 +139,23 @@ class ListItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(100),
         color: kblack,
       ),
+      margin: const EdgeInsets.symmetric(vertical: 10),
       child: ListTile(
         onTap: onPress,
         leading: Icon(icon, color: kwhite),
         title: Text(
           title,
-          style: TextStyle(color: kwhite),
+          style: const TextStyle(color: kwhite),
         ),
-        contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 16),
+        contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
         // style: ListTileStyle.list,
         trailing: trailings
-            ? Icon(
+            ? const Icon(
                 Icons.arrow_forward,
                 color: kgrey,
               )
             : null,
       ),
-      margin: EdgeInsets.symmetric(vertical: 10),
     );
   }
 }

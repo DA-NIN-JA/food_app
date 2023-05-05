@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:food_app/providers/provider.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import '../constants.dart';
 import '../providers/provider.dart' as UserProviders;
 import '../reusableWidgets/dialog_box.dart';
@@ -61,7 +60,7 @@ class _SlideAnimationWidgetState extends State<SlideAnimationWidget> {
           child: Stack(
             children: [
               AnimatedPositioned(
-                duration: Duration(milliseconds: 300),
+                duration: const Duration(milliseconds: 300),
                 curve: Curves.easeInOut,
                 top: MediaQuery.of(context).size.height * 0.25,
                 left: _isContainerVisible
@@ -70,7 +69,7 @@ class _SlideAnimationWidgetState extends State<SlideAnimationWidget> {
                 child: AuthWidget(false, _toggle),
               ),
               AnimatedPositioned(
-                duration: Duration(milliseconds: 300),
+                duration: const Duration(milliseconds: 300),
                 curve: Curves.easeInOut,
                 top: MediaQuery.of(context).size.height * 0.15,
                 left:
@@ -135,8 +134,8 @@ class _AuthWidgetState extends State<AuthWidget> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 10),
-      margin: EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 20),
       height: MediaQuery.of(context).size.height,
       width: width - 40,
       alignment: Alignment.center,
@@ -149,9 +148,9 @@ class _AuthWidgetState extends State<AuthWidget> {
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(color: kgrey)),
-                    prefixIcon: Icon(Icons.person, color: kblack),
-                    label: Text("Name"),
+                        borderSide: const BorderSide(color: kgrey)),
+                    prefixIcon: const Icon(Icons.person, color: kblack),
+                    label: const Text("Name"),
                   ),
                   // onTapOutside: (event) => Focus.of(context).unfocus(),
                   validator: (value) {
@@ -162,24 +161,24 @@ class _AuthWidgetState extends State<AuthWidget> {
                       : null,
                   keyboardType: TextInputType.name,
                 )
-              : SizedBox(),
+              : const SizedBox(),
           widget._isSignUp
-              ? SizedBox(
+              ? const SizedBox(
                   height: 30,
                 )
-              : SizedBox(),
+              : const SizedBox(),
           TextFormField(
             focusNode: _emailFocus,
             controller: _emailController,
             decoration: InputDecoration(
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide(color: kgrey)),
-              prefixIcon: Icon(
+                  borderSide: const BorderSide(color: kgrey)),
+              prefixIcon: const Icon(
                 Icons.email_rounded,
                 color: kblack,
               ),
-              label: Text("Email"),
+              label: const Text("Email"),
             ),
             // onTapOutside: (event) => Focus.of(context).unfocus(),
             // validator: (value) {
@@ -190,7 +189,7 @@ class _AuthWidgetState extends State<AuthWidget> {
                 : null,
             keyboardType: TextInputType.emailAddress,
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
           TextFormField(
@@ -199,9 +198,9 @@ class _AuthWidgetState extends State<AuthWidget> {
             decoration: InputDecoration(
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide(color: kgrey)),
-              prefixIcon: Icon(Icons.key_rounded, color: kblack),
-              label: Text("Password"),
+                  borderSide: const BorderSide(color: kgrey)),
+              prefixIcon: const Icon(Icons.key_rounded, color: kblack),
+              label: const Text("Password"),
               suffixIcon: GestureDetector(
                 onTap: () => setState(() {
                   _passVisible = !_passVisible;
@@ -232,10 +231,10 @@ class _AuthWidgetState extends State<AuthWidget> {
             keyboardType: TextInputType.visiblePassword,
           ),
           widget._isSignUp
-              ? SizedBox(
+              ? const SizedBox(
                   height: 30,
                 )
-              : SizedBox(),
+              : const SizedBox(),
           widget._isSignUp
               ? TextFormField(
                   controller: _conPasswordController,
@@ -243,9 +242,9 @@ class _AuthWidgetState extends State<AuthWidget> {
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(color: kgrey)),
-                    prefixIcon: Icon(Icons.key_rounded, color: kblack),
-                    label: Text("Confirm Password"),
+                        borderSide: const BorderSide(color: kgrey)),
+                    prefixIcon: const Icon(Icons.key_rounded, color: kblack),
+                    label: const Text("Confirm Password"),
                     suffixIcon: GestureDetector(
                       onTap: () => setState(() {
                         _ConPassVisible = !_ConPassVisible;
@@ -271,26 +270,26 @@ class _AuthWidgetState extends State<AuthWidget> {
                   obscureText: !_ConPassVisible,
                   keyboardType: TextInputType.visiblePassword,
                 )
-              : SizedBox(),
-          SizedBox(
+              : const SizedBox(),
+          const SizedBox(
             height: 30,
           ),
           ElevatedButton(
             onPressed: widget._isSignUp ? signUp : login,
-            child: Text(
-              widget._isSignUp ? "Sign Up" : "Login",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
-            ),
             style: ButtonStyle(
                 fixedSize: MaterialStatePropertyAll(
                   Size(width - 40, 50),
                 ),
-                backgroundColor: MaterialStatePropertyAll(kblack),
-                elevation: MaterialStatePropertyAll(10),
+                backgroundColor: const MaterialStatePropertyAll(kblack),
+                elevation: const MaterialStatePropertyAll(10),
                 shape: MaterialStatePropertyAll(RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(40)))),
+            child: Text(
+              widget._isSignUp ? "Sign Up" : "Login",
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
+            ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Row(
@@ -299,7 +298,7 @@ class _AuthWidgetState extends State<AuthWidget> {
             children: [
               Text(
                 widget._isSignUp ? "Already have an Account?" : "New User?",
-                style: TextStyle(fontSize: 16),
+                style: const TextStyle(fontSize: 16),
               ),
               TextButton(
                 onPressed: () {
@@ -314,37 +313,45 @@ class _AuthWidgetState extends State<AuthWidget> {
                 },
                 child: Text(
                   widget._isSignUp ? "Login" : "Sign Up",
-                  style: TextStyle(fontSize: 20),
+                  style: const TextStyle(fontSize: 20),
                 ),
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Expanded(
+              const Expanded(
                 child: Divider(thickness: 2, color: kblack),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 6),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 6),
                 child: Text(
                   "OR",
                   style: TextStyle(fontSize: 14),
                 ),
               ),
-              Expanded(
+              const Expanded(
                 child: Divider(thickness: 2, color: kblack),
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           ElevatedButton(
             onPressed: () {},
+            style: ButtonStyle(
+                fixedSize: MaterialStatePropertyAll(
+                  Size(width - 40, 50),
+                ),
+                backgroundColor: const MaterialStatePropertyAll(kblack),
+                elevation: const MaterialStatePropertyAll(10),
+                shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40)))),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -352,23 +359,15 @@ class _AuthWidgetState extends State<AuthWidget> {
                     radius: 14,
                     backgroundColor: kblack.withOpacity(0),
                     child: Image.asset("assets/google.png")),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
-                Text(
+                const Text(
                   "Continue with Google",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
               ],
             ),
-            style: ButtonStyle(
-                fixedSize: MaterialStatePropertyAll(
-                  Size(width - 40, 50),
-                ),
-                backgroundColor: MaterialStatePropertyAll(kblack),
-                elevation: MaterialStatePropertyAll(10),
-                shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(40)))),
           ),
         ],
       ),

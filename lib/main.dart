@@ -46,14 +46,14 @@ class MyApp extends StatelessWidget {
         home: StreamBuilder<auth.User?>(
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Scaffold(
+              return const Scaffold(
                 body: Center(
                   child: CircularProgressIndicator(color: kblack),
                 ),
               );
             } else if (snapshot.hasError) {
-              print(snapshot.error);
-              return Scaffold(
+              // print(snapshot.error);
+              return const Scaffold(
                 body: Center(
                   child: Text(
                     "Something went Wrong. Please try again later",

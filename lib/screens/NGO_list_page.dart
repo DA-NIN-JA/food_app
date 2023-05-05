@@ -17,7 +17,7 @@ class NGOsList extends StatelessWidget {
           print(snapshot.error);
           ErrorDialog(context,
               "An occured has occured from the server. Please try again later.");
-          return Scaffold();
+          return const Scaffold();
         } else if (snapshot.hasData ||
             snapshot.connectionState == ConnectionState.waiting) {
           // final listNGOs = snapshot.data;
@@ -28,7 +28,7 @@ class NGOsList extends StatelessWidget {
               child: Stack(
                 children: [
                   Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       gradient: LinearGradient(
                           colors: [kwhite, kcyan],
                           begin: Alignment.topLeft,
@@ -37,7 +37,7 @@ class NGOsList extends StatelessWidget {
                     height: MediaQuery.of(context).size.height,
                     width: double.infinity,
                     child: snapshot.connectionState == ConnectionState.waiting
-                        ? Center(
+                        ? const Center(
                             child: CircularProgressIndicator(
                               color: kblack,
                             ),
@@ -46,9 +46,9 @@ class NGOsList extends StatelessWidget {
                             padding: const EdgeInsets.only(
                                 top: 99), // It is the padding for stack.
                             child: ListView.builder(
-                              padding: EdgeInsets.only(
+                              padding: const EdgeInsets.only(
                                   bottom: 10,top: 20), // It is the padding in scroll.
-                              physics: AlwaysScrollableScrollPhysics(
+                              physics: const AlwaysScrollableScrollPhysics(
                                   parent: BouncingScrollPhysics()),
                               itemBuilder: (context, index) {
                                 return NGOListItem(snapshot.data![index]);
@@ -62,7 +62,7 @@ class NGOsList extends StatelessWidget {
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       color: kwhite.withOpacity(0),
-                      child: Text(
+                      child: const Text(
                         "Connect with NGOs",
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -73,21 +73,21 @@ class NGOsList extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    child: IconButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        icon: BackIcon(),
-                        splashRadius: 28),
                     left: 5,
                     top: 5,
+                    child: IconButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        icon: const BackIcon(),
+                        splashRadius: 28),
                   ),
-                  Positioned(
+                  const Positioned(
+                    top: 90,
+                    left: 10,
+                    right: 10,
                     child: Divider(
                       color: kgrey,
                       thickness: 2,
                     ),
-                    top: 90,
-                    left: 10,
-                    right: 10,
                   )
                 ],
               ),
@@ -97,7 +97,7 @@ class NGOsList extends StatelessWidget {
           print(snapshot.error);
           ErrorDialog(
               context, "An occured has occured. Please try again later.");
-          return Scaffold();
+          return const Scaffold();
         }
       },
       future: Provider.of<NGOProvider>(context, listen: false).getListNGOs(),
@@ -122,20 +122,20 @@ class NGOListItem extends StatelessWidget {
           color: kblack,
         ),
         height: 90,
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         child: Column(
           children: [
             Text(
               NGOItem.name,
-              style: TextStyle(color: kwhite, fontSize: 16),
+              style: const TextStyle(color: kwhite, fontSize: 16),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
             ),
             Expanded(
               child: Center(
-                child: Container(
+                child: SizedBox(
                   width: double.infinity,
                   child: Text(
                     "Cause: ${NGOItem.cause}",
@@ -146,7 +146,7 @@ class NGOListItem extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
+            SizedBox(
               width: double.infinity,
               child: Text(
                 NGOItem.address,

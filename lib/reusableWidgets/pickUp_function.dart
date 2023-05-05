@@ -20,30 +20,30 @@ void PickUpButton(BuildContext context, String phone, String address, {bool isSw
         context: context,
         type: AlertType.success,
         title: "Donation Successful!!",
-        style: AlertStyle(
+        style: const AlertStyle(
           titleStyle: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,
           ),
         ),
-        closeIcon: SizedBox(),
+        closeIcon: const SizedBox(),
         buttons: [
           DialogButton(
-            child: Text(
+            onPressed: () => Navigator.of(context).pop(),
+            color: kblack,
+            child: const Text(
               "OK",
               style: TextStyle(color: kwhite),
             ),
-            onPressed: () => Navigator.of(context).pop(),
-            color: kblack,
           ),
         ],
-        content: Text(
+        content: const Text(
           "We are on our way to pick up your parcel.",
           style: TextStyle(fontSize: 16),
           textAlign: TextAlign.center,
         ),
       ).show().then((value) async {
-        if(isSwipe) await Future.delayed(Duration(seconds: 3));
+        if(isSwipe) await Future.delayed(const Duration(seconds: 3));
         Navigator.of(context).pop();
       });
     } on PlatformException catch (e) {

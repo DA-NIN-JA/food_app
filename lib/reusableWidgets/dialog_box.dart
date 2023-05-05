@@ -7,26 +7,26 @@ void ErrorDialog(BuildContext context, String errorMessage) {
       context: context,
       type: AlertType.error,
       title: "Error",
-      style: AlertStyle(
+      style: const AlertStyle(
         titleStyle: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
         ),
       ),
-      closeIcon: SizedBox(),
+      closeIcon: const SizedBox(),
       buttons: [
         DialogButton(
-          child: Text(
+          onPressed: () => Navigator.of(context).pop(),
+          color: kblack,
+          child: const Text(
             "OK",
             style: TextStyle(color: kwhite),
           ),
-          onPressed: () => Navigator.of(context).pop(),
-          color: kblack,
         ),
       ],
       content: Text(
         errorMessage,
-        style: TextStyle(fontSize: 14),
+        style: const TextStyle(fontSize: 14),
       ),
     ).show();
   }

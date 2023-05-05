@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -9,7 +6,6 @@ import '../providers/provider.dart' as up;
 import '../reusableWidgets/dialog_box.dart';
 import 'package:provider/provider.dart';
 import '../constants.dart';
-import '../reusableWidgets/back_button.dart';
 import '../reusableWidgets/tab_bar.dart';
 
 class JoinUsPage extends StatefulWidget {
@@ -67,25 +63,25 @@ class _JoinUsPageState extends State<JoinUsPage> {
         context: context,
         type: AlertType.success,
         title: "Joined Successfully!!",
-        style: AlertStyle(
+        style: const AlertStyle(
           titleStyle: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,
           ),
         ),
-        closeIcon: SizedBox(),
+        closeIcon: const SizedBox(),
         buttons: [
           DialogButton(
-            child: Text(
+            onPressed: () => Navigator.of(context).pop(),
+            color: kblack,
+            child: const Text(
               "OK",
               style: TextStyle(color: kwhite),
             ),
-            onPressed: () => Navigator.of(context).pop(),
-            color: kblack,
           ),
         ],
-        content: Text(
-          "Let\'s contribute to the society together.",
+        content: const Text(
+          "Let's contribute to the society together.",
           style: TextStyle(fontSize: 16),
           textAlign: TextAlign.center,
         ),
@@ -128,19 +124,15 @@ class _JoinUsPageState extends State<JoinUsPage> {
           context: context,
           type: AlertType.warning,
           title: "Caution!",
-          style: AlertStyle(
+          style: const AlertStyle(
             titleStyle: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.bold,
             ),
           ),
-          closeIcon: SizedBox(),
+          closeIcon: const SizedBox(),
           buttons: [
             DialogButton(
-              child: Text(
-                "YES",
-                style: TextStyle(color: kgrey),
-              ),
               onPressed: () {
                 Navigator.of(context).pop();
                 setState(() {
@@ -149,19 +141,23 @@ class _JoinUsPageState extends State<JoinUsPage> {
                 SystemNavigator.pop();
               },
               color: kwhite,
+              child: const Text(
+                "YES",
+                style: TextStyle(color: kgrey),
+              ),
             ),
             DialogButton(
-              child: Text(
-                "NO",
-                style: TextStyle(color: kwhite),
-              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
               color: kblack,
+              child: const Text(
+                "NO",
+                style: TextStyle(color: kwhite),
+              ),
             ),
           ],
-          content: Text(
+          content: const Text(
             "Are you sure you want to exit the app?",
             style: TextStyle(fontSize: 16),
             textAlign: TextAlign.center,
@@ -177,22 +173,22 @@ class _JoinUsPageState extends State<JoinUsPage> {
         child: Stack(
           children: [
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   gradient: RadialGradient(
                       colors: [kwhite, kcyan],
                       center: Alignment.center,
                       radius: 0.9999)),
               height: double.infinity,
               width: double.infinity,
-              padding: EdgeInsets.only(top: 80, bottom: 120),
+              padding: const EdgeInsets.only(top: 80, bottom: 120),
               child: SingleChildScrollView(
-                physics: AlwaysScrollableScrollPhysics(
+                physics: const AlwaysScrollableScrollPhysics(
                     parent: BouncingScrollPhysics()),
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                   child: Column(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       TextFormField(
@@ -201,19 +197,19 @@ class _JoinUsPageState extends State<JoinUsPage> {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide(color: kgrey)),
-                          prefixIcon: Icon(
+                              borderSide: const BorderSide(color: kgrey)),
+                          prefixIcon: const Icon(
                             Icons.person,
                             color: kblack,
                           ),
-                          label: Text("Name of NGO"),
+                          label: const Text("Name of NGO"),
                         ),
-                        style: TextStyle(color: kblack),
+                        style: const TextStyle(color: kblack),
                         onFieldSubmitted: (value) => FocusScope.of(context)
                             .requestFocus(_descriptionFocus),
                         keyboardType: TextInputType.name,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       TextFormField(
@@ -222,21 +218,21 @@ class _JoinUsPageState extends State<JoinUsPage> {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide(color: kgrey)),
-                          prefixIcon: Icon(
+                              borderSide: const BorderSide(color: kgrey)),
+                          prefixIcon: const Icon(
                             Icons.person,
                             color: kblack,
                           ),
-                          label: Text("Description"),
+                          label: const Text("Description"),
                         ),
-                        style: TextStyle(color: kblack),
+                        style: const TextStyle(color: kblack),
                         onFieldSubmitted: (value) =>
                             FocusScope.of(context).requestFocus(_emailFocus),
                         keyboardType: TextInputType.name,
                         maxLength: 2500,
                         maxLines: 1,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       TextFormField(
@@ -245,18 +241,18 @@ class _JoinUsPageState extends State<JoinUsPage> {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide(color: kgrey)),
-                          prefixIcon: Icon(
+                              borderSide: const BorderSide(color: kgrey)),
+                          prefixIcon: const Icon(
                             Icons.email_rounded,
                             color: kblack,
                           ),
-                          label: Text("Email"),
+                          label: const Text("Email"),
                         ),
                         onFieldSubmitted: (value) =>
                             FocusScope.of(context).requestFocus(_phoneFocus),
-                        style: TextStyle(color: kblack),
+                        style: const TextStyle(color: kblack),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       TextFormField(
@@ -265,19 +261,19 @@ class _JoinUsPageState extends State<JoinUsPage> {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide(color: kgrey)),
-                          prefixIcon: Icon(
+                              borderSide: const BorderSide(color: kgrey)),
+                          prefixIcon: const Icon(
                             Icons.phone,
                             color: kblack,
                           ),
-                          label: Text("Phone"),
+                          label: const Text("Phone"),
                         ),
                         onFieldSubmitted: (value) =>
                             FocusScope.of(context).requestFocus(_addressFocus),
                         keyboardType: TextInputType.number,
-                        style: TextStyle(color: kblack),
+                        style: const TextStyle(color: kblack),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       TextFormField(
@@ -286,12 +282,12 @@ class _JoinUsPageState extends State<JoinUsPage> {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide(color: kgrey)),
-                          prefixIcon: Icon(
+                              borderSide: const BorderSide(color: kgrey)),
+                          prefixIcon: const Icon(
                             Icons.home_rounded,
                             color: kblack,
                           ),
-                          label: Text("Address"),
+                          label: const Text("Address"),
                         ),
                         onTapOutside: (event) =>
                             FocusScope.of(context).unfocus(),
@@ -300,13 +296,13 @@ class _JoinUsPageState extends State<JoinUsPage> {
                         keyboardType: TextInputType.streetAddress,
                         maxLength: 100,
                         maxLines: 1,
-                        style: TextStyle(color: kblack),
+                        style: const TextStyle(color: kblack),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       CustomDropdown(_causeController, _causeFocus, causeValue),
-                      SizedBox(
+                      const SizedBox(
                         height: 40,
                       ),
                       Row(
@@ -315,12 +311,7 @@ class _JoinUsPageState extends State<JoinUsPage> {
                           Expanded(
                             child: ElevatedButton(
                               onPressed: saveForm,
-                              child: Text(
-                                "Save",
-                                style: TextStyle(fontSize: 36),
-                                textAlign: TextAlign.center,
-                              ),
-                              style: ButtonStyle(
+                              style: const ButtonStyle(
                                 backgroundColor:
                                     MaterialStatePropertyAll(kblack),
                                 elevation: MaterialStatePropertyAll(5),
@@ -332,11 +323,16 @@ class _JoinUsPageState extends State<JoinUsPage> {
                                       vertical: 4, horizontal: 6),
                                 ),
                               ),
+                              child: const Text(
+                                "Save",
+                                style: TextStyle(fontSize: 36),
+                                textAlign: TextAlign.center,
+                              ),
                             ),
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                     ],
@@ -349,7 +345,7 @@ class _JoinUsPageState extends State<JoinUsPage> {
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 color: kwhite.withOpacity(0),
-                child: Text(
+                child: const Text(
                   "Join Us",
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -359,14 +355,14 @@ class _JoinUsPageState extends State<JoinUsPage> {
                 ),
               ),
             ),
-            Positioned(
+            const Positioned(
+              top: 70,
+              left: 20,
+              right: 20,
               child: Divider(
                 thickness: 2,
                 color: kgrey,
               ),
-              top: 70,
-              left: 20,
-              right: 20,
             ),
             // Positioned(
             //   child: Container(
@@ -377,11 +373,11 @@ class _JoinUsPageState extends State<JoinUsPage> {
             //   left: 0,
             //   right: 0,
             // ),
-            Positioned(
-              child: Center(child: FloatingTabBar()),
+            const Positioned(
               bottom: 50,
               left: 20,
               right: 20,
+              child: Center(child: FloatingTabBar()),
             ),
           ],
         ),
@@ -428,7 +424,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
             borderSide: BorderSide(color: kblack),
           ),
         ),
-        hint: Text(
+        hint: const Text(
           "Select Cause",
           style: TextStyle(fontSize: 17),
         ),
@@ -438,7 +434,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
         elevation: 5,
         borderRadius: BorderRadius.circular(10),
         dropdownColor: Colors.grey[300],
-        style: TextStyle(color: kblack),
+        style: const TextStyle(color: kblack),
         value: _selectedValue,
         onChanged: (value) {
           setState(() {
@@ -468,7 +464,7 @@ class EditIcon extends StatelessWidget {
         color: kblack,
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
-          BoxShadow(color: Colors.black54, blurRadius: 4, offset: Offset(0, 1))
+          const BoxShadow(color: Colors.black54, blurRadius: 4, offset: Offset(0, 1))
         ],
       ),
       child: Center(

@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../providers/provider.dart' as up;
@@ -51,21 +48,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         context: context,
         type: AlertType.success,
         title: "Changes Successful!!",
-        style: AlertStyle(
+        style: const AlertStyle(
           titleStyle: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,
           ),
         ),
-        closeIcon: SizedBox(),
+        closeIcon: const SizedBox(),
         buttons: [
           DialogButton(
-            child: Text(
+            onPressed: () => Navigator.of(context).pop(),
+            color: kblack,
+            child: const Text(
               "OK",
               style: TextStyle(color: kwhite),
             ),
-            onPressed: () => Navigator.of(context).pop(),
-            color: kblack,
           ),
         ],
         // content: Text(
@@ -113,7 +110,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         child: Stack(
           children: [
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   gradient: RadialGradient(
                       colors: [kwhite, kcyan],
                       center: Alignment.center,
@@ -122,25 +119,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               width: double.infinity,
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
                   child: Column(
                     children: [
-                      Container(
-                        // margin: EdgeInsets.only(top: 5),
-                        child: Text(
-                          "My Profile",
-                          style: TextStyle(
-                            fontSize: 36,
-                            shadows: [
-                              Shadow(
-                                  blurRadius: 4,
-                                  offset: Offset(-1, 1.5),
-                                  color: Colors.black45),
-                            ],
-                          ),
+                      const Text(
+                        "My Profile",
+                        style: TextStyle(
+                          fontSize: 36,
+                          shadows: [
+                            Shadow(
+                                blurRadius: 4,
+                                offset: Offset(-1, 1.5),
+                                color: Colors.black45),
+                          ],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       GestureDetector(
@@ -155,12 +149,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20),
-                                borderSide: BorderSide(color: kgrey)),
-                            prefixIcon: Icon(
+                                borderSide: const BorderSide(color: kgrey)),
+                            prefixIcon: const Icon(
                               Icons.person,
                               color: kblack,
                             ),
-                            label: Text("Name"),
+                            label: const Text("Name"),
                           ),
                           style: TextStyle(color: _editable ? kblack : kgrey),
                           onFieldSubmitted: (value) => _phoneController.text
@@ -178,7 +172,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 },
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       GestureDetector(
@@ -191,14 +185,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20),
-                                borderSide: BorderSide(color: kgrey)),
-                            prefixIcon: Icon(
+                                borderSide: const BorderSide(color: kgrey)),
+                            prefixIcon: const Icon(
                               Icons.email_rounded,
                               color: kblack,
                             ),
-                            label: Text("Email"),
+                            label: const Text("Email"),
                           ),
-                          style: TextStyle(color: kgrey),
+                          style: const TextStyle(color: kgrey),
                           onTap: () {
                             FocusScope.of(context).requestFocus(FocusNode());
                           },
@@ -206,7 +200,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           readOnly: true,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       GestureDetector(
@@ -221,12 +215,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20),
-                                borderSide: BorderSide(color: kgrey)),
-                            prefixIcon: Icon(
+                                borderSide: const BorderSide(color: kgrey)),
+                            prefixIcon: const Icon(
                               Icons.phone,
                               color: kblack,
                             ),
-                            label: Text("Phone"),
+                            label: const Text("Phone"),
                           ),
                           onFieldSubmitted: (value) =>
                               _addressController.text.trim().isEmpty
@@ -244,7 +238,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 },
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       GestureDetector(
@@ -259,12 +253,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20),
-                                borderSide: BorderSide(color: kgrey)),
-                            prefixIcon: Icon(
+                                borderSide: const BorderSide(color: kgrey)),
+                            prefixIcon: const Icon(
                               Icons.home_rounded,
                               color: kblack,
                             ),
-                            label: Text("Address"),
+                            label: const Text("Address"),
                           ),
                           onTapOutside: (event) =>
                               FocusScope.of(context).unfocus(),
@@ -283,7 +277,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 },
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 40,
                       ),
                       if (_editable)
@@ -293,12 +287,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             Expanded(
                               child: ElevatedButton(
                                 onPressed: saveForm,
-                                child: Text(
-                                  "Save",
-                                  style: TextStyle(fontSize: 36),
-                                  textAlign: TextAlign.center,
-                                ),
-                                style: ButtonStyle(
+                                style: const ButtonStyle(
                                   backgroundColor:
                                       MaterialStatePropertyAll(kblack),
                                   elevation: MaterialStatePropertyAll(5),
@@ -309,6 +298,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     EdgeInsets.symmetric(
                                         vertical: 4, horizontal: 6),
                                   ),
+                                ),
+                                child: const Text(
+                                  "Save",
+                                  style: TextStyle(fontSize: 36),
+                                  textAlign: TextAlign.center,
                                 ),
                               ),
                             ),
@@ -323,14 +317,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
             ),
             Positioned(
+                left: 5,
+                top: 5,
                 child: IconButton(
                     iconSize: 40,
                     onPressed: () => Navigator.of(context).pop(),
-                    icon: BackIcon(),
-                    splashRadius: 28),
-                left: 5,
-                top: 5),
+                    icon: const BackIcon(),
+                    splashRadius: 28)),
             Positioned(
+                right: 10,
+                top: 8,
                 child: IconButton(
                     iconSize: 48,
                     onPressed: () {
@@ -340,9 +336,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       _addressController.text = initAddress;
                     },
                     icon: EditIcon(_editable),
-                    splashRadius: 28),
-                right: 10,
-                top: 8),
+                    splashRadius: 28)),
           ],
         ),
       ),
@@ -361,7 +355,8 @@ class EditIcon extends StatelessWidget {
         color: kblack,
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
-          BoxShadow(color: Colors.black54, blurRadius: 4, offset: Offset(0, 1))
+          const BoxShadow(
+              color: Colors.black54, blurRadius: 4, offset: Offset(0, 1))
         ],
       ),
       child: Center(

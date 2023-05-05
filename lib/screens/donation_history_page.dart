@@ -6,7 +6,6 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../constants.dart';
 import '../providers/provider.dart';
-import '../reusableWidgets/back_button.dart';
 import '../reusableWidgets/tab_bar.dart';
 import '../reusableWidgets/dialog_box.dart';
 
@@ -28,19 +27,15 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
           context: context,
           type: AlertType.warning,
           title: "Caution!",
-          style: AlertStyle(
+          style: const AlertStyle(
             titleStyle: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.bold,
             ),
           ),
-          closeIcon: SizedBox(),
+          closeIcon: const SizedBox(),
           buttons: [
             DialogButton(
-              child: Text(
-                "YES",
-                style: TextStyle(color: kgrey),
-              ),
               onPressed: () {
                 Navigator.of(context).pop();
                 setState(() {
@@ -49,19 +44,23 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
                 SystemNavigator.pop();
               },
               color: kwhite,
+              child: const Text(
+                "YES",
+                style: TextStyle(color: kgrey),
+              ),
             ),
             DialogButton(
-              child: Text(
-                "NO",
-                style: TextStyle(color: kwhite),
-              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
               color: kblack,
+              child: const Text(
+                "NO",
+                style: TextStyle(color: kwhite),
+              ),
             ),
           ],
-          content: Text(
+          content: const Text(
             "Are you sure you want to exit the app?",
             style: TextStyle(fontSize: 16),
             textAlign: TextAlign.center,
@@ -76,7 +75,7 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
             print(snapshot.error);
             ErrorDialog(context,
                 "An occured has occured from the server. Please try again later.");
-            return Scaffold();
+            return const Scaffold();
           } else if (snapshot.hasData ||
               snapshot.connectionState == ConnectionState.waiting) {
             // final listNGOs = snapshot.data;
@@ -87,7 +86,7 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
                 child: Stack(
                   children: [
                     Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         gradient: LinearGradient(
                             colors: [kwhite, kcyan],
                             begin: Alignment.topLeft,
@@ -96,7 +95,7 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
                       height: MediaQuery.of(context).size.height,
                       width: double.infinity,
                       child: snapshot.connectionState == ConnectionState.waiting
-                          ? Center(
+                          ? const Center(
                               child: CircularProgressIndicator(
                                 color: kblack,
                               ),
@@ -105,9 +104,9 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
                               padding: const EdgeInsets.only(
                                   top: 85), // It is the padding for stack.
                               child: ListView.builder(
-                                padding: EdgeInsets.only(
+                                padding: const EdgeInsets.only(
                                     bottom: 120,top: 15), // It is the padding in scroll.
-                                physics: AlwaysScrollableScrollPhysics(
+                                physics: const AlwaysScrollableScrollPhysics(
                                     parent: BouncingScrollPhysics()),
                                 itemBuilder: (context, index) {
                                   return singleDonation(snapshot.data![index]);
@@ -121,7 +120,7 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         color: kwhite.withOpacity(0),
-                        child: Text(
+                        child: const Text(
                           "Donation History",
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -131,29 +130,29 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
                         ),
                       ),
                     ),
-                    Positioned(
+                    const Positioned(
+                      top: 78,
+                      left: 10,
+                      right: 10,
                       child: Divider(
                         thickness: 2,
                         color: kgrey,
                       ),
-                      top: 78,
-                      left: 10,
-                      right: 10,
                     ),
                     Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
                       child: Container(
                         height: 114,
                         color: kwhite.withOpacity(0.2),
                       ),
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
                     ),
-                    Positioned(
-                      child: Center(child: FloatingTabBar()),
+                    const Positioned(
                       bottom: 50,
                       left: 20,
                       right: 20,
+                      child: Center(child: FloatingTabBar()),
                     ),
                   ],
                 ),
@@ -161,7 +160,7 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
             );
           } else {
             print(snapshot.error);
-            return Scaffold(
+            return const Scaffold(
               body: Center(
                 child: Text("An occured has occured. Please try again later."),
               ),
@@ -192,11 +191,11 @@ class singleDonation extends StatelessWidget {
           color: kblack,
         ),
         height: 100,
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         child: Column(
           children: [
-            Text(
+            const Text(
               "Food pick-up",
               style: TextStyle(
                   color: kwhite, fontSize: 18, fontWeight: FontWeight.bold),
@@ -204,7 +203,7 @@ class singleDonation extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Container(
@@ -219,7 +218,7 @@ class singleDonation extends StatelessWidget {
             ),
             Expanded(
               child: Center(
-                child: Container(
+                child: SizedBox(
                   width: double.infinity,
                   child: Text(
                     donationItem.address,

@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:food_app/constants.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:food_app/screens/donation_history_page.dart';
 import 'package:food_app/screens/join_us_page.dart';
-import 'package:food_app/screens/user_profile.dart';
 
 class FloatingTabBar extends StatelessWidget {
   const FloatingTabBar({super.key});
@@ -57,7 +54,7 @@ class IconColumn extends StatelessWidget {
               ),
               Text(
                 title,
-                style: TextStyle(fontSize: 10, color: kwhite),
+                style: const TextStyle(fontSize: 10, color: kwhite),
               ),
             ],
           ),

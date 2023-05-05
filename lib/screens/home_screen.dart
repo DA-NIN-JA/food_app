@@ -1,19 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:food_app/screens/donate_now_page.dart';
 import '../constants.dart';
 import '../providers/provider.dart' as up;
 import '../reusableWidgets/dialog_box.dart';
 import '../reusableWidgets/tab_bar.dart';
 import '../screens/NGO_list_page.dart';
-import '../screens/NGO_page.dart';
-import '../screens/user_profile.dart';
 import 'package:provider/provider.dart';
 import '../reusableWidgets/user_profile_icon.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import '../reusableWidgets/pickUp_function.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -37,7 +31,7 @@ class HomeScreen extends StatelessWidget {
                       end: Alignment.bottomCenter),
                 ),
                 child: snapshot.connectionState == ConnectionState.waiting
-                    ? Center(
+                    ? const Center(
                         child: CircularProgressIndicator(
                           color: kblack,
                         ),
@@ -45,7 +39,7 @@ class HomeScreen extends StatelessWidget {
                     : Stack(
                         children: [
                           SingleChildScrollView(
-                            padding: EdgeInsets.fromLTRB(20, 25, 20, 0),
+                            padding: const EdgeInsets.fromLTRB(20, 25, 20, 0),
                             child: Column(
                               // mainAxisAlignment: MainAxisAlignment.spaceAround,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,48 +47,45 @@ class HomeScreen extends StatelessWidget {
                                 FittedBox(
                                   child: Text(
                                     "Hi ${userData!.name.split(" ")[0]},",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 36,
                                         fontWeight: FontWeight.w600,
                                         color: kblack),
                                     textAlign: TextAlign.start,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
-                                Container(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "You have taken the first step towards donating already.",
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w400,
-                                            color: kgrey),
-                                        textAlign: TextAlign.start,
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                        "Make sure the food is fresh.",
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w400,
-                                            color: kgrey),
-                                        textAlign: TextAlign.start,
-                                      ),
-                                    ],
-                                  ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: const [
+                                    Text(
+                                      "You have taken the first step towards donating already.",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400,
+                                          color: kgrey),
+                                      textAlign: TextAlign.start,
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      "Make sure the food is fresh.",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400,
+                                          color: kgrey),
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 60,
                                 ),
                                 Container(
-                                  padding: EdgeInsets.all(10),
+                                  padding: const EdgeInsets.all(10),
                                   alignment: Alignment.center,
                                   child: ElevatedButton(
                                     onPressed: () {
@@ -114,11 +105,13 @@ class HomeScreen extends StatelessWidget {
                                     },
                                     style: ButtonStyle(
                                       backgroundColor:
-                                          MaterialStatePropertyAll(kblack),
-                                      fixedSize: MaterialStatePropertyAll(
+                                          const MaterialStatePropertyAll(
+                                              kblack),
+                                      fixedSize: const MaterialStatePropertyAll(
                                         Size(250, 100),
                                       ),
-                                      elevation: MaterialStatePropertyAll(10),
+                                      elevation:
+                                          const MaterialStatePropertyAll(10),
                                       shape: MaterialStatePropertyAll(
                                         RoundedRectangleBorder(
                                           borderRadius:
@@ -126,13 +119,13 @@ class HomeScreen extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    child: Text(
+                                    child: const Text(
                                       "Donate Now",
                                       style: TextStyle(fontSize: 30),
                                     ),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 50,
                                 ),
                                 Container(
@@ -140,15 +133,13 @@ class HomeScreen extends StatelessWidget {
                                   child: ElevatedButton(
                                     onPressed: () => Navigator.of(context)
                                         .pushNamed(NGOsList.routeName),
-                                    child: Text(
-                                      "Connect with NGOs",
-                                      style: TextStyle(fontSize: 25),
-                                    ),
                                     style: ButtonStyle(
-                                      elevation: MaterialStatePropertyAll(10),
+                                      elevation:
+                                          const MaterialStatePropertyAll(10),
                                       backgroundColor:
-                                          MaterialStatePropertyAll(kblack),
-                                      fixedSize: MaterialStatePropertyAll(
+                                          const MaterialStatePropertyAll(
+                                              kblack),
+                                      fixedSize: const MaterialStatePropertyAll(
                                         Size(250, 100),
                                       ),
                                       shape: MaterialStatePropertyAll(
@@ -159,10 +150,14 @@ class HomeScreen extends StatelessWidget {
                                       ),
                                       splashFactory: InkSplash.splashFactory,
                                     ),
+                                    child: const Text(
+                                      "Connect with NGOs",
+                                      style: TextStyle(fontSize: 25),
+                                    ),
                                   ),
                                 ),
-                                SizedBox(height: 115),
-                                Text(
+                                const SizedBox(height: 115),
+                                const Text(
                                   "“They got money for wars but can’t feed the poor.” — Tupac Shakur",
                                   style: TextStyle(
                                       fontSize: 16,
@@ -174,16 +169,16 @@ class HomeScreen extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Positioned(
-                            child: Center(child: FloatingTabBar()),
+                          const Positioned(
                             bottom: 50,
                             left: 20,
                             right: 20,
+                            child: Center(child: FloatingTabBar()),
                           ),
-                          Positioned(
-                            child: ProfileIcon(),
+                          const Positioned(
                             right: 10,
                             top: 10,
+                            child: ProfileIcon(),
                           )
                         ],
                       ),
@@ -194,9 +189,9 @@ class HomeScreen extends StatelessWidget {
           print(snapshot.error);
           ErrorDialog(context,
               "An error occured from the server. Please try again later.");
-          return Scaffold();
+          return const Scaffold();
         }
-        ;
+        
       },
       future:
           Provider.of<up.UserProvider>(context, listen: false).getUserInfo(),
@@ -222,7 +217,7 @@ class BottomSheetContainer extends StatelessWidget {
       child: Container(
         width: double.infinity,
         height: double.infinity,
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
         decoration: BoxDecoration(
           gradient: LinearGradient(
               colors: [kwhite, kcyan.withOpacity(0.6)],
@@ -233,29 +228,29 @@ class BottomSheetContainer extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             BottomSheetInfoRow(title: "Pick-up from: ", info: userData!.name),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             BottomSheetInfoRow(
               title: "Pick-up Address: ",
               info: userData!.address,
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             BottomSheetInfoRow(title: "Phone: ", info: userData!.phone),
-            SizedBox(
+            const SizedBox(
               height: 60,
             ),
             BottomSheetInfoRow(title: "Pick-up Charges", info: "₹50"),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             Divider(
               thickness: 2,
               color: kblack.withOpacity(0.7),
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             BottomSheetInfoRow(
@@ -263,7 +258,7 @@ class BottomSheetContainer extends StatelessWidget {
               info: "₹50",
               bold: true,
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             Stack(
@@ -272,14 +267,14 @@ class BottomSheetContainer extends StatelessWidget {
                   width: double.infinity,
                   alignment: Alignment.center,
                   height: 60,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Colors.greenAccent,
                     // borderRadius:
                     //     BorderRadius
                     //         .circular(
                     //             10),
                   ),
-                  child: Text(
+                  child: const Text(
                     "On Our Way!!",
                     style: TextStyle(
                         color: kwhite,
@@ -289,11 +284,27 @@ class BottomSheetContainer extends StatelessWidget {
                 ),
                 Dismissible(
                   key: UniqueKey(),
+                  dragStartBehavior: DragStartBehavior.start,
+                  background: Container(
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    height: 60,
+                    decoration: const BoxDecoration(
+                      color: Colors.greenAccent,
+                      // borderRadius:
+                      //     BorderRadius
+                      //         .circular(10),
+                    ),
+                  ),
+                  onDismissed: (direction) async => {
+                    PickUpButton(context, userData!.phone, userData!.address,
+                        isSwipe: true),
+                  },
                   child: Container(
                     width: double.infinity,
                     alignment: Alignment.center,
                     height: 60,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.greenAccent,
                       // borderRadius:
                       //     BorderRadius
@@ -301,7 +312,7 @@ class BottomSheetContainer extends StatelessWidget {
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: const [
                         Text(
                           "Swipe to Donate",
                           style: TextStyle(
@@ -324,21 +335,6 @@ class BottomSheetContainer extends StatelessWidget {
                       ],
                     ),
                   ),
-                  dragStartBehavior: DragStartBehavior.start,
-                  background: Container(
-                    width: double.infinity,
-                    alignment: Alignment.center,
-                    height: 60,
-                    decoration: BoxDecoration(
-                      color: Colors.greenAccent,
-                      // borderRadius:
-                      //     BorderRadius
-                      //         .circular(10),
-                    ),
-                  ),
-                  onDismissed: (direction) async => {
-                    PickUpButton(context, userData!.phone, userData!.address,isSwipe: true),
-                  },
                 ),
               ],
             )
@@ -366,7 +362,7 @@ class BottomSheetInfoRow extends StatelessWidget {
       children: [
         Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             color: kgrey,
             fontSize: 16,

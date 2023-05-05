@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
-
 import '../providers/provider.dart';
 import '../constants.dart';
 import '../reusableWidgets/back_button.dart';
@@ -50,7 +45,7 @@ class _DonateNowScreenState extends State<DonateNowScreen> {
         child: Container(
           width: double.infinity,
           height: double.infinity,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
                 colors: [kwhite, kcyan],
                 begin: Alignment.topCenter,
@@ -59,20 +54,20 @@ class _DonateNowScreenState extends State<DonateNowScreen> {
           child: Stack(
             children: [
               SingleChildScrollView(
-                padding: EdgeInsets.fromLTRB(20, 90, 20, 0),
+                padding: const EdgeInsets.fromLTRB(20, 90, 20, 0),
                 child: Column(
                   children: [
-                    Divider(
+                    const Divider(
                       color: kgrey,
                       thickness: 2,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     Container(
                       width: double.infinity,
                       alignment: Alignment.centerLeft,
-                      child: Text(
+                      child: const Text(
                         "Pick-up Details:",
                         style: TextStyle(
                             color: kblack,
@@ -80,7 +75,7 @@ class _DonateNowScreenState extends State<DonateNowScreen> {
                             fontWeight: FontWeight.bold),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     TextFormField(
@@ -89,12 +84,12 @@ class _DonateNowScreenState extends State<DonateNowScreen> {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
-                            borderSide: BorderSide(color: kgrey)),
-                        prefixIcon: Icon(
+                            borderSide: const BorderSide(color: kgrey)),
+                        prefixIcon: const Icon(
                           Icons.phone,
                           color: kblack,
                         ),
-                        label: Text("Phone"),
+                        label: const Text("Phone"),
                       ),
                       onFieldSubmitted: (value) => _addressController.text
                               .trim()
@@ -102,7 +97,7 @@ class _DonateNowScreenState extends State<DonateNowScreen> {
                           ? FocusScope.of(context).requestFocus(_addressFocus)
                           : null,
                       keyboardType: TextInputType.number,
-                      style: TextStyle(color: kblack),
+                      style: const TextStyle(color: kblack),
                       // readOnly: _editable ? false : true,
                       // onTap: _editable
                       //     ? null
@@ -110,7 +105,7 @@ class _DonateNowScreenState extends State<DonateNowScreen> {
                       //         FocusScope.of(context).requestFocus(FocusNode());
                       //       },
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     TextFormField(
@@ -119,12 +114,12 @@ class _DonateNowScreenState extends State<DonateNowScreen> {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
-                            borderSide: BorderSide(color: kgrey)),
-                        prefixIcon: Icon(
+                            borderSide: const BorderSide(color: kgrey)),
+                        prefixIcon: const Icon(
                           Icons.home_rounded,
                           color: kblack,
                         ),
-                        label: Text("Address"),
+                        label: const Text("Address"),
                       ),
                       onTapOutside: (event) => FocusScope.of(context).unfocus(),
                       onFieldSubmitted: (value) =>
@@ -132,7 +127,7 @@ class _DonateNowScreenState extends State<DonateNowScreen> {
                       keyboardType: TextInputType.streetAddress,
                       maxLength: 100,
                       maxLines: 1,
-                      style: TextStyle(color: kblack),
+                      style: const TextStyle(color: kblack),
                       // readOnly: _editable ? false : true,
                       // onTap: _editable
                       //     ? null
@@ -140,18 +135,18 @@ class _DonateNowScreenState extends State<DonateNowScreen> {
                       //         FocusScope.of(context).requestFocus(FocusNode());
                       //       },
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 40,
                     ),
                     BottomSheetInfoRow(title: "Pick-up Charges", info: "₹50"),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Divider(
                       thickness: 2,
                       color: kblack.withOpacity(0.6),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     BottomSheetInfoRow(
@@ -159,16 +154,16 @@ class _DonateNowScreenState extends State<DonateNowScreen> {
                       info: "₹50",
                       bold: true,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
-                    Container(
+                    SizedBox(
                       width: double.infinity,
                       height: 50,
                       child: ElevatedButton(
                         style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll(kblack),
-                          elevation: MaterialStatePropertyAll(10),
+                          backgroundColor: const MaterialStatePropertyAll(kblack),
+                          elevation: const MaterialStatePropertyAll(10),
                           shape: MaterialStatePropertyAll(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50),
@@ -180,7 +175,7 @@ class _DonateNowScreenState extends State<DonateNowScreen> {
                           _phoneController.text.trim(),
                           _addressController.text.trim(),
                         ),
-                        child: Text(
+                        child: const Text(
                           "Confirm Pick Up",
                           style: TextStyle(fontSize: 20),
                         ),
@@ -194,7 +189,7 @@ class _DonateNowScreenState extends State<DonateNowScreen> {
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   color: kwhite.withOpacity(0),
-                  child: Text(
+                  child: const Text(
                     "Donate Food",
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -205,12 +200,12 @@ class _DonateNowScreenState extends State<DonateNowScreen> {
                 ),
               ),
               Positioned(
-                child: IconButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    icon: BackIcon(),
-                    splashRadius: 28),
                 left: 5,
                 top: 5,
+                child: IconButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon: const BackIcon(),
+                    splashRadius: 28),
               )
             ],
           ),
