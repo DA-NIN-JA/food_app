@@ -72,10 +72,10 @@ class NGOProvider with ChangeNotifier {
   void addNGO(NGO ngo) {
     try {
       FirebaseFirestore.instance.collection("NGO").doc().set({
-        "Name":ngo.name,
-        "Address":ngo.address,
-        "Cause":ngo.cause,
-        "Description":ngo.description,
+        "Name": ngo.name,
+        "Address": ngo.address,
+        "Cause": ngo.cause,
+        "Description": ngo.description,
       });
     } on PlatformException catch (e) {
       print(e);
@@ -214,12 +214,13 @@ class HistoryProvider with ChangeNotifier {
       List<DonationData> _temp = [];
       final snapshot = await FirebaseFirestore.instance
           .collection("users/history/$userId")
+          .orderBy("Date",descending: true)
           .get();
       for (var doc in snapshot.docs) {
         final singleDonation = DonationData(
           address: doc["address"],
           id: doc.id.substring(0, 8),
-          date: (doc["Date"]as Timestamp).toDate(),
+          date: (doc["Date"] as Timestamp).toDate(),
           total: doc["total"].toString(),
         );
         // print(singleNGO.name);

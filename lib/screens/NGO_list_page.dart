@@ -44,10 +44,10 @@ class NGOsList extends StatelessWidget {
                           )
                         : Padding(
                             padding: const EdgeInsets.only(
-                                top: 80), // It is the padding for stack.
+                                top: 99), // It is the padding for stack.
                             child: ListView.builder(
                               padding: EdgeInsets.only(
-                                  bottom: 10), // It is the padding in scroll.
+                                  bottom: 10,top: 20), // It is the padding in scroll.
                               physics: AlwaysScrollableScrollPhysics(
                                   parent: BouncingScrollPhysics()),
                               itemBuilder: (context, index) {
@@ -79,6 +79,15 @@ class NGOsList extends StatelessWidget {
                         splashRadius: 28),
                     left: 5,
                     top: 5,
+                  ),
+                  Positioned(
+                    child: Divider(
+                      color: kgrey,
+                      thickness: 2,
+                    ),
+                    top: 90,
+                    left: 10,
+                    right: 10,
                   )
                 ],
               ),

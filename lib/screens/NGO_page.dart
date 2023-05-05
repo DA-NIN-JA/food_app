@@ -24,24 +24,17 @@ class NGOPage extends StatelessWidget {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight)),
               padding: EdgeInsets.fromLTRB(
-                  20, 70, 20, 0), // Padding for the overall column
+                  20, 80, 20, 0), // Padding for the overall column
               child: SingleChildScrollView(
                 physics: AlwaysScrollableScrollPhysics(
                     parent: BouncingScrollPhysics()),
                 child: Padding(
                   padding: const EdgeInsets.only(
-                      bottom: 50), // Paddint so that there is extra scroll
+                      bottom: 50,top: 30), // Paddint so that there is extra scroll
                   child: Column(
                     children: [
-                      Divider(
-                      color: kgrey,
-                      thickness: 2,
-                    ),
-                    // SizedBox(
-                    //   height: 30,
-                    // ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 16, bottom: 10),
+                        padding: const EdgeInsets.only( bottom: 10),
                         child: Row(
                           children: [
                             Icon(FontAwesomeIcons.gem, color: kblack, size: 24),
@@ -161,7 +154,8 @@ class NGOPage extends StatelessWidget {
                   splashRadius: 28),
               left: 5,
               top: 5,
-            )
+            ),
+            Positioned(child: Divider(color: kgrey,thickness: 2,),top: 70,left: 20,right: 20,)
           ],
         ),
       ),
