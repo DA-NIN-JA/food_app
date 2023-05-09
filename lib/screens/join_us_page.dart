@@ -118,6 +118,7 @@ class _JoinUsPageState extends State<JoinUsPage> {
     //     _isInit = false;
     //   });
     // }
+    bool isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom > 0;
     return WillPopScope(
       onWillPop: () async {
         Alert(
@@ -166,223 +167,234 @@ class _JoinUsPageState extends State<JoinUsPage> {
 
         return _exit;
       },
-      child:Scaffold(
-      // appBar: AppBar(backgroundColor: kwhite,elevation: 0,),
-      backgroundColor: kwhite,
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Container(
-              decoration: const BoxDecoration(
-                  gradient: RadialGradient(
-                      colors: [kwhite, kcyan],
-                      center: Alignment.center,
-                      radius: 0.9999)),
-              height: double.infinity,
-              width: double.infinity,
-              padding: const EdgeInsets.only(top: 80, bottom: 120),
-              child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(
-                    parent: BouncingScrollPhysics()),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      TextFormField(
-                        focusNode: _nameFocus,
-                        controller: _nameController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: const BorderSide(color: kgrey)),
-                          prefixIcon: const Icon(
-                            Icons.person,
-                            color: kblack,
-                          ),
-                          label: const Text("Name of NGO"),
-                        ),
-                        style: const TextStyle(color: kblack),
-                        onFieldSubmitted: (value) => FocusScope.of(context)
-                            .requestFocus(_descriptionFocus),
-                        keyboardType: TextInputType.name,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      TextFormField(
-                        focusNode: _descriptionFocus,
-                        controller: _descriptionController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: const BorderSide(color: kgrey)),
-                          prefixIcon: const Icon(
-                            Icons.person,
-                            color: kblack,
-                          ),
-                          label: const Text("Description"),
-                        ),
-                        style: const TextStyle(color: kblack),
-                        onFieldSubmitted: (value) =>
-                            FocusScope.of(context).requestFocus(_emailFocus),
-                        keyboardType: TextInputType.name,
-                        maxLength: 2500,
-                        maxLines: 1,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      TextFormField(
-                        focusNode: _emailFocus,
-                        controller: _emailController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: const BorderSide(color: kgrey)),
-                          prefixIcon: const Icon(
-                            Icons.email_rounded,
-                            color: kblack,
-                          ),
-                          label: const Text("Email"),
-                        ),
-                        onFieldSubmitted: (value) =>
-                            FocusScope.of(context).requestFocus(_phoneFocus),
-                        style: const TextStyle(color: kblack),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      TextFormField(
-                        focusNode: _phoneFocus,
-                        controller: _phoneController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: const BorderSide(color: kgrey)),
-                          prefixIcon: const Icon(
-                            Icons.phone,
-                            color: kblack,
-                          ),
-                          label: const Text("Phone"),
-                        ),
-                        onFieldSubmitted: (value) =>
-                            FocusScope.of(context).requestFocus(_addressFocus),
-                        keyboardType: TextInputType.number,
-                        style: const TextStyle(color: kblack),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      TextFormField(
-                        focusNode: _addressFocus,
-                        controller: _addressController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: const BorderSide(color: kgrey)),
-                          prefixIcon: const Icon(
-                            Icons.home_rounded,
-                            color: kblack,
-                          ),
-                          label: const Text("Address"),
-                        ),
-                        onTapOutside: (event) =>
-                            FocusScope.of(context).unfocus(),
-                        onFieldSubmitted: (value) =>
-                            FocusScope.of(context).unfocus(),
-                        keyboardType: TextInputType.streetAddress,
-                        maxLength: 100,
-                        maxLines: 1,
-                        style: const TextStyle(color: kblack),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      CustomDropdown(_causeController, _causeFocus, causeValue),
-                      const SizedBox(
-                        height: 40,
-                      ),
-                      Row(
-                        // mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: saveForm,
-                              style: const ButtonStyle(
-                                backgroundColor:
-                                    MaterialStatePropertyAll(kblack),
-                                elevation: MaterialStatePropertyAll(5),
-                                fixedSize: MaterialStatePropertyAll(
-                                  Size(100, double.infinity),
-                                ),
-                                padding: MaterialStatePropertyAll(
-                                  EdgeInsets.symmetric(
-                                      vertical: 4, horizontal: 6),
-                                ),
-                              ),
-                              child: const Text(
-                                "Save",
-                                style: TextStyle(fontSize: 36),
-                                textAlign: TextAlign.center,
-                              ),
+      child: Stack(
+        children: [
+          Scaffold(
+            // appBar: AppBar(backgroundColor: kwhite,elevation: 0,),
+            backgroundColor: kwhite,
+            body: SafeArea(
+              child: Stack(
+                children: [
+                  Container(
+                    decoration: const BoxDecoration(
+                        gradient: RadialGradient(
+                            colors: [kwhite, kcyan],
+                            center: Alignment.center,
+                            radius: 0.9999)),
+                    height: double.infinity,
+                    width: double.infinity,
+                    padding: EdgeInsets.only(
+                        top: 80, bottom: isKeyboardVisible ? 0 : 120),
+                    child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(
+                          parent: BouncingScrollPhysics()),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                        child: Column(
+                          children: [
+                            const SizedBox(
+                              height: 30,
                             ),
-                          ),
-                        ],
+                            TextFormField(
+                              focusNode: _nameFocus,
+                              controller: _nameController,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: const BorderSide(color: kgrey)),
+                                prefixIcon: const Icon(
+                                  Icons.person,
+                                  color: kblack,
+                                ),
+                                label: const Text("Name of NGO"),
+                              ),
+                              style: const TextStyle(color: kblack),
+                              onFieldSubmitted: (value) =>
+                                  FocusScope.of(context)
+                                      .requestFocus(_descriptionFocus),
+                              keyboardType: TextInputType.name,
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            TextFormField(
+                              focusNode: _descriptionFocus,
+                              controller: _descriptionController,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: const BorderSide(color: kgrey)),
+                                prefixIcon: const Icon(
+                                  Icons.person,
+                                  color: kblack,
+                                ),
+                                label: const Text("Description"),
+                              ),
+                              style: const TextStyle(color: kblack),
+                              onFieldSubmitted: (value) =>
+                                  FocusScope.of(context)
+                                      .requestFocus(_emailFocus),
+                              keyboardType: TextInputType.name,
+                              maxLength: 2500,
+                              maxLines: 1,
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            TextFormField(
+                              focusNode: _emailFocus,
+                              controller: _emailController,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: const BorderSide(color: kgrey)),
+                                prefixIcon: const Icon(
+                                  Icons.email_rounded,
+                                  color: kblack,
+                                ),
+                                label: const Text("Email"),
+                              ),
+                              onFieldSubmitted: (value) =>
+                                  FocusScope.of(context)
+                                      .requestFocus(_phoneFocus),
+                              style: const TextStyle(color: kblack),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            TextFormField(
+                              focusNode: _phoneFocus,
+                              controller: _phoneController,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: const BorderSide(color: kgrey)),
+                                prefixIcon: const Icon(
+                                  Icons.phone,
+                                  color: kblack,
+                                ),
+                                label: const Text("Phone"),
+                              ),
+                              onFieldSubmitted: (value) =>
+                                  FocusScope.of(context)
+                                      .requestFocus(_addressFocus),
+                              keyboardType: TextInputType.number,
+                              style: const TextStyle(color: kblack),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            TextFormField(
+                              focusNode: _addressFocus,
+                              controller: _addressController,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: const BorderSide(color: kgrey)),
+                                prefixIcon: const Icon(
+                                  Icons.home_rounded,
+                                  color: kblack,
+                                ),
+                                label: const Text("Address"),
+                              ),
+                              onTapOutside: (event) =>
+                                  FocusScope.of(context).unfocus(),
+                              onFieldSubmitted: (value) =>
+                                  FocusScope.of(context).unfocus(),
+                              keyboardType: TextInputType.streetAddress,
+                              maxLength: 100,
+                              maxLines: 1,
+                              style: const TextStyle(color: kblack),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            CustomDropdown(
+                                _causeController, _causeFocus, causeValue),
+                            const SizedBox(
+                              height: 40,
+                            ),
+                            Row(
+                              // mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Expanded(
+                                  child: ElevatedButton(
+                                    onPressed: saveForm,
+                                    style: const ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStatePropertyAll(kblack),
+                                      elevation: MaterialStatePropertyAll(5),
+                                      fixedSize: MaterialStatePropertyAll(
+                                        Size(100, double.infinity),
+                                      ),
+                                      padding: MaterialStatePropertyAll(
+                                        EdgeInsets.symmetric(
+                                            vertical: 4, horizontal: 6),
+                                      ),
+                                    ),
+                                    child: const Text(
+                                      "Save",
+                                      style: TextStyle(fontSize: 36),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                          ],
+                        ),
                       ),
-                      const SizedBox(
-                        height: 20,
+                    ),
+                  ),
+                  Positioned(
+                    top: 20,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      color: kwhite.withOpacity(0),
+                      child: const Text(
+                        "Join Us",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 36,
+                        ),
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-            ),
-            Positioned(
-              top: 20,
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                color: kwhite.withOpacity(0),
-                child: const Text(
-                  "Join Us",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 36,
+                  const Positioned(
+                    top: 70,
+                    left: 20,
+                    right: 20,
+                    child: Divider(
+                      thickness: 2,
+                      color: kgrey,
+                    ),
                   ),
-                ),
+                  // Positioned(
+                  //   child: Container(
+                  //     height: 115,
+                  //     color: kwhite.withOpacity(0.2),
+                  //   ),
+                  //   bottom: 0,
+                  //   left: 0,
+                  //   right: 0,
+                  // ),
+                ],
               ),
             ),
-            const Positioned(
-              top: 70,
-              left: 20,
-              right: 20,
-              child: Divider(
-                thickness: 2,
-                color: kgrey,
-              ),
-            ),
-            // Positioned(
-            //   child: Container(
-            //     height: 115,
-            //     color: kwhite.withOpacity(0.2),
-            //   ),
-            //   bottom: 0,
-            //   left: 0,
-            //   right: 0,
-            // ),
-            const Positioned(
-              bottom: 50,
-              left: 20,
-              right: 20,
-              child: Center(child: FloatingTabBar()),
-            ),
-          ],
-        ),
+          ),
+          const Positioned(
+            bottom: 50,
+            left: 20,
+            right: 20,
+            child: Center(child: FloatingTabBar()),
+          ),
+        ],
       ),
-    ),);
+    );
   }
 }
 
@@ -464,7 +476,8 @@ class EditIcon extends StatelessWidget {
         color: kblack,
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
-          const BoxShadow(color: Colors.black54, blurRadius: 4, offset: Offset(0, 1))
+          const BoxShadow(
+              color: Colors.black54, blurRadius: 4, offset: Offset(0, 1))
         ],
       ),
       child: Center(
