@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:food_app/screens/donate_now_page.dart';
 import '../constants.dart';
 import '../providers/provider.dart' as up;
@@ -9,192 +10,251 @@ import '../screens/NGO_list_page.dart';
 import 'package:provider/provider.dart';
 import '../reusableWidgets/user_profile_icon.dart';
 import '../reusableWidgets/pickUp_function.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  var _exit = false;
+
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      builder: (context, snapshot) {
-        if (snapshot.hasData ||
-            snapshot.connectionState == ConnectionState.waiting) {
-          final userData = snapshot.data;
-          return Scaffold(
-            // appBar: AppBar(),
-            body: SafeArea(
-              child: Container(
-                width: double.infinity,
-                height: double.infinity,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      colors: [kwhite, kcyan.withOpacity(0.6)],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter),
-                ),
-                child: snapshot.connectionState == ConnectionState.waiting
-                    ? const Center(
-                        child: CircularProgressIndicator(
-                          color: kblack,
-                        ),
-                      )
-                    : Stack(
-                        children: [
-                          SingleChildScrollView(
-                            padding: const EdgeInsets.fromLTRB(20, 25, 20, 0),
-                            child: Column(
-                              // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                FittedBox(
-                                  child: Text(
-                                    "Hi ${userData!.name.split(" ")[0]},",
-                                    style: const TextStyle(
-                                        fontSize: 36,
-                                        fontWeight: FontWeight.w600,
-                                        color: kblack),
-                                    textAlign: TextAlign.start,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
-                                    Text(
-                                      "You have taken the first step towards donating already.",
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400,
-                                          color: kgrey),
-                                      textAlign: TextAlign.start,
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      "Make sure the food is fresh.",
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400,
-                                          color: kgrey),
-                                      textAlign: TextAlign.start,
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 60,
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.all(10),
-                                  alignment: Alignment.center,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      if (userData.address != "" &&
-                                          userData.phone != "") {
-                                        showModalBottomSheet(
-                                          context: context,
-                                          builder: (context) {
-                                            return BottomSheetContainer(
-                                                userData: userData);
-                                          },
-                                        );
-                                      } else {
-                                        Navigator.of(context).pushNamed(
-                                            DonateNowScreen.routeName);
-                                      }
-                                    },
-                                    style: ButtonStyle(
-                                      backgroundColor:
-                                          const MaterialStatePropertyAll(
-                                              kblack),
-                                      fixedSize: const MaterialStatePropertyAll(
-                                        Size(250, 100),
-                                      ),
-                                      elevation:
-                                          const MaterialStatePropertyAll(10),
-                                      shape: MaterialStatePropertyAll(
-                                        RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(25),
-                                        ),
-                                      ),
-                                    ),
-                                    child: const Text(
-                                      "Donate Now",
-                                      style: TextStyle(fontSize: 30),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 50,
-                                ),
-                                Container(
-                                  alignment: Alignment.center,
-                                  child: ElevatedButton(
-                                    onPressed: () => Navigator.of(context)
-                                        .pushNamed(NGOsList.routeName),
-                                    style: ButtonStyle(
-                                      elevation:
-                                          const MaterialStatePropertyAll(10),
-                                      backgroundColor:
-                                          const MaterialStatePropertyAll(
-                                              kblack),
-                                      fixedSize: const MaterialStatePropertyAll(
-                                        Size(250, 100),
-                                      ),
-                                      shape: MaterialStatePropertyAll(
-                                        RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(25),
-                                        ),
-                                      ),
-                                      splashFactory: InkSplash.splashFactory,
-                                    ),
-                                    child: const Text(
-                                      "Connect with NGOs",
-                                      style: TextStyle(fontSize: 25),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 115),
-                                const Text(
-                                  "“They got money for wars but can’t feed the poor.” — Tupac Shakur",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400,
-                                      color: kgrey,
-                                      fontStyle: FontStyle.italic),
-                                  textAlign: TextAlign.start,
-                                ),
-                              ],
-                            ),
-                          ),
-                          const Positioned(
-                            bottom: 50,
-                            left: 20,
-                            right: 20,
-                            child: Center(child: FloatingTabBar()),
-                          ),
-                          const Positioned(
-                            right: 10,
-                            top: 10,
-                            child: ProfileIcon(),
-                          )
-                        ],
-                      ),
+    return WillPopScope(
+      onWillPop: () async {
+        Alert(
+          context: context,
+          type: AlertType.warning,
+          title: "Caution!",
+          style: const AlertStyle(
+            titleStyle: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          closeIcon: const SizedBox(),
+          buttons: [
+            DialogButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                setState(() {
+                  _exit = true;
+                });
+                SystemNavigator.pop();
+              },
+              color: kwhite,
+              child: const Text(
+                "YES",
+                style: TextStyle(color: kgrey),
               ),
             ),
-          );
-        } else {
-          print(snapshot.error);
-          ErrorDialog(context,
-              "An error occured from the server. Please try again later.");
-          return const Scaffold();
-        }
-        
+            DialogButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              color: kblack,
+              child: const Text(
+                "NO",
+                style: TextStyle(color: kwhite),
+              ),
+            ),
+          ],
+          content: const Text(
+            "Are you sure you want to exit the app?",
+            style: TextStyle(fontSize: 16),
+            textAlign: TextAlign.center,
+          ),
+        ).show();
+
+        return _exit;
       },
-      future:
-          Provider.of<up.UserProvider>(context, listen: false).getUserInfo(),
+      child: FutureBuilder(
+        builder: (context, snapshot) {
+          if (snapshot.hasData ||
+              snapshot.connectionState == ConnectionState.waiting) {
+            final userData = snapshot.data;
+            return Scaffold(
+              // appBar: AppBar(),
+              body: SafeArea(
+                child: Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        colors: [kwhite, kcyan.withOpacity(0.6)],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter),
+                  ),
+                  child: Stack(
+                    children: [
+                      snapshot.connectionState == ConnectionState.waiting
+                          ? const Center(
+                              child: CircularProgressIndicator(
+                                color: kblack,
+                              ),
+                            )
+                          : SingleChildScrollView(
+                              padding: const EdgeInsets.fromLTRB(20, 25, 20, 0),
+                              child: Column(
+                                // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  FittedBox(
+                                    child: Text(
+                                      "Hi ${userData!.name.split(" ")[0]},",
+                                      style: const TextStyle(
+                                          fontSize: 36,
+                                          fontWeight: FontWeight.w600,
+                                          color: kblack),
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: const [
+                                      Text(
+                                        "You have taken the first step towards donating already.",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400,
+                                            color: kgrey),
+                                        textAlign: TextAlign.start,
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        "Make sure the food is fresh.",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400,
+                                            color: kgrey),
+                                        textAlign: TextAlign.start,
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 60,
+                                  ),
+                                  Container(
+                                    padding: const EdgeInsets.all(10),
+                                    alignment: Alignment.center,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        if (userData.address != "" &&
+                                            userData.phone != "") {
+                                          showModalBottomSheet(
+                                            context: context,
+                                            builder: (context) {
+                                              return BottomSheetContainer(
+                                                  userData: userData);
+                                            },
+                                          );
+                                        } else {
+                                          Navigator.of(context).pushNamed(
+                                              DonateNowScreen.routeName);
+                                        }
+                                      },
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            const MaterialStatePropertyAll(
+                                                kblack),
+                                        fixedSize:
+                                            const MaterialStatePropertyAll(
+                                          Size(250, 100),
+                                        ),
+                                        elevation:
+                                            const MaterialStatePropertyAll(10),
+                                        shape: MaterialStatePropertyAll(
+                                          RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(25),
+                                          ),
+                                        ),
+                                      ),
+                                      child: const Text(
+                                        "Donate Now",
+                                        style: TextStyle(fontSize: 30),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 50,
+                                  ),
+                                  Container(
+                                    alignment: Alignment.center,
+                                    child: ElevatedButton(
+                                      onPressed: () => Navigator.of(context)
+                                          .pushNamed(NGOsList.routeName),
+                                      style: ButtonStyle(
+                                        elevation:
+                                            const MaterialStatePropertyAll(10),
+                                        backgroundColor:
+                                            const MaterialStatePropertyAll(
+                                                kblack),
+                                        fixedSize:
+                                            const MaterialStatePropertyAll(
+                                          Size(250, 100),
+                                        ),
+                                        shape: MaterialStatePropertyAll(
+                                          RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(25),
+                                          ),
+                                        ),
+                                        splashFactory: InkSplash.splashFactory,
+                                      ),
+                                      child: const Text(
+                                        "Connect with NGOs",
+                                        style: TextStyle(fontSize: 25),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 115),
+                                  const Text(
+                                    "“They got money for wars but can’t feed the poor.” — Tupac Shakur",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                        color: kgrey,
+                                        fontStyle: FontStyle.italic),
+                                    textAlign: TextAlign.start,
+                                  ),
+                                ],
+                              ),
+                            ),
+                      const Positioned(
+                        bottom: 50,
+                        left: 20,
+                        right: 20,
+                        child: Center(child: FloatingTabBar()),
+                      ),
+                      const Positioned(
+                        right: 10,
+                        top: 10,
+                        child: ProfileIcon(),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            );
+          } else {
+            print(snapshot.error);
+            ErrorDialog(context,
+                "An error occured from the server. Please try again later.");
+            return const Scaffold();
+          }
+        },
+        future:
+            Provider.of<up.UserProvider>(context, listen: false).getUserInfo(),
+      ),
     );
   }
 }
