@@ -216,7 +216,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(height: 115),
+                                  const SizedBox(height: 125),
                                   const Text(
                                     "“They got money for wars but can’t feed the poor.” — Tupac Shakur",
                                     style: TextStyle(
@@ -229,12 +229,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ],
                               ),
                             ),
-                      const Positioned(
-                        bottom: 50,
-                        left: 20,
-                        right: 20,
-                        child: Center(child: FloatingTabBar()),
-                      ),
+                      const FloatingTabBar(),
                       const Positioned(
                         right: 10,
                         top: 10,

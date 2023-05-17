@@ -105,7 +105,8 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
                                   top: 85), // It is the padding for stack.
                               child: ListView.builder(
                                 padding: const EdgeInsets.only(
-                                    bottom: 120,top: 15), // It is the padding in scroll.
+                                    bottom: 120,
+                                    top: 15), // It is the padding in scroll.
                                 physics: const AlwaysScrollableScrollPhysics(
                                     parent: BouncingScrollPhysics()),
                                 itemBuilder: (context, index) {
@@ -139,21 +140,8 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
                         color: kgrey,
                       ),
                     ),
-                    Positioned(
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      child: Container(
-                        height: 114,
-                        color: kwhite.withOpacity(0.2),
-                      ),
-                    ),
-                    const Positioned(
-                      bottom: 50,
-                      left: 20,
-                      right: 20,
-                      child: Center(child: FloatingTabBar()),
-                    ),
+                    const shadowBox(),
+                    const FloatingTabBar(),
                   ],
                 ),
               ),

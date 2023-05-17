@@ -386,12 +386,7 @@ class _JoinUsPageState extends State<JoinUsPage> {
               ),
             ),
           ),
-          const Positioned(
-            bottom: 50,
-            left: 20,
-            right: 20,
-            child: Center(child: FloatingTabBar()),
-          ),
+          const FloatingTabBar(),
         ],
       ),
     );
