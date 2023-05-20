@@ -90,7 +90,7 @@ class shadowBox extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(
               colors: [
-                kblack.withOpacity(0.5),
+                kblack.withOpacity(0.7),
                 kwhite.withOpacity(0),
               ],
               begin: Alignment.bottomCenter,

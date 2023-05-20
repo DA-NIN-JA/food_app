@@ -138,8 +138,8 @@ class UserProvider with ChangeNotifier {
     }
   }
 
-  void logout(BuildContext context) {
-    FirebaseAuth.instance.signOut();
+  Future<void> logout(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
     Navigator.of(context).pop();
   }
 
