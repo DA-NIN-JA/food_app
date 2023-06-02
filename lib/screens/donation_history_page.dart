@@ -73,9 +73,13 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             print(snapshot.error);
-            ErrorDialog(context,
-                "An occured has occured from the server. Please try again later.");
-            return const Scaffold();
+            // ErrorDialog(context,
+            //     "An occured has occured from the server. Please try again later.");
+            return Scaffold(
+              body: Center(
+                child: Text("An error occured from snapshot.error"),
+              ),
+            );
           } else if (snapshot.hasData ||
               snapshot.connectionState == ConnectionState.waiting) {
             // final listNGOs = snapshot.data;

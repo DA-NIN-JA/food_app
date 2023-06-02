@@ -242,9 +242,13 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           } else {
             print(snapshot.error);
-            ErrorDialog(context,
-                "An error occured from the server. Please try again later.");
-            return const Scaffold();
+            // ErrorDialog(context,
+            //     "An error occured from the server. Please try again later.");
+            return const Scaffold(
+              body: Center(
+                child: Text("An Error occured by snapshot.error."),
+              ),
+            );
           }
         },
         future:

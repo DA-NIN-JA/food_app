@@ -1,36 +1,92 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:food_app/providers/provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:flutter/services.dart';
 import '../constants.dart';
 import '../providers/provider.dart' as UserProviders;
 import '../reusableWidgets/dialog_box.dart';
 
-class AuthPage extends StatelessWidget {
+class AuthPage extends StatefulWidget {
   static const routeName = "/AuthPage";
 
   @override
+  State<AuthPage> createState() => _AuthPageState();
+}
+
+class _AuthPageState extends State<AuthPage> {
+  var _exit = false;
+  @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        // Unfocus the keyboard when the user taps outside the TextFormField.
-        final currentFocus = FocusScope.of(context);
-        if (!currentFocus.hasPrimaryFocus) {
-          currentFocus.focusedChild!.unfocus();
-        }
-      },
-      child: Scaffold(
-        body: SafeArea(
-          child: Container(
-            width: double.infinity,
-            height: MediaQuery.of(context).size.height,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [kwhite, kcyan],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+    return WillPopScope(
+      onWillPop: () async {
+        Alert(
+          context: context,
+          type: AlertType.warning,
+          title: "Caution!",
+          style: const AlertStyle(
+            titleStyle: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          closeIcon: const SizedBox(),
+          buttons: [
+            DialogButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                setState(() {
+                  _exit = true;
+                });
+                SystemNavigator.pop();
+              },
+              color: kwhite,
+              child: const Text(
+                "YES",
+                style: TextStyle(color: kgrey),
               ),
             ),
-            child: SlideAnimationWidget(),
+            DialogButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              color: kblack,
+              child: const Text(
+                "NO",
+                style: TextStyle(color: kwhite),
+              ),
+            ),
+          ],
+          content: const Text(
+            "Are you sure you want to exit the app?",
+            style: TextStyle(fontSize: 16),
+            textAlign: TextAlign.center,
+          ),
+        ).show();
+
+        return _exit;
+      },
+      child: GestureDetector(
+        onTap: () {
+          // Unfocus the keyboard when the user taps outside the TextFormField.
+          final currentFocus = FocusScope.of(context);
+          if (!currentFocus.hasPrimaryFocus) {
+            currentFocus.focusedChild!.unfocus();
+          }
+        },
+        child: Scaffold(
+          body: SafeArea(
+            child: Container(
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [kwhite, kcyan],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+              ),
+              child: SlideAnimationWidget(),
+            ),
           ),
         ),
       ),
@@ -429,17 +485,18 @@ class _AuthWidgetState extends State<AuthWidget> {
         ErrorDialog(context, "Passwords do not match");
         FocusScope.of(context).requestFocus(_conFocus);
       } else {
-        final authResult = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        final authResult =
+            await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
         );
 
-        UserProvider().addUser(
-          UserProviders.User(
-            name: _nameController.text.trim(),
-            email: _emailController.text.trim(),
-          ), authResult.user!.uid
-        );
+        UserProviders.UserProvider().addUser(
+            UserProviders.User(
+              name: _nameController.text.trim(),
+              email: _emailController.text.trim(),
+            ),
+            authResult.user!.uid);
       }
     } on FirebaseAuthException catch (error) {
       setState(() {
